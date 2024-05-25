@@ -37,8 +37,8 @@ Yunzai-Bot/plugins/esca-plugin/config
 
 # 联系方式
 - [QQ2833598659](https://qm.qq.com/q/G0y1D5vYqc)
-### 唯一交流群: 720290263
-[点击加入QQ交流群920749244](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Zm9GCAQuT9Nj5WbgsbkKxzCIqevfkHZd&authKey=Xn6kpXKqUQPS9TWU0atP8%2FZ9Ig9rPpNbQpdt4ZA0jxIQtZmlN8vCVXQXia9CB5Op&noverify=0&group_code=920749244)
+### 交流群: 920749244
+[点击加入QQ交流群](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Zm9GCAQuT9Nj5WbgsbkKxzCIqevfkHZd&authKey=Xn6kpXKqUQPS9TWU0atP8%2FZ9Ig9rPpNbQpdt4ZA0jxIQtZmlN8vCVXQXia9CB5Op&noverify=0&group_code=920749244)
 
 # 声明
 - 功能仅限内部交流与小范围使用
