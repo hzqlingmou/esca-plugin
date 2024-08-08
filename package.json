@@ -1,0 +1,11 @@
+{
+  "name": "esca-plugin",
+  "author": "hzqlingmou",
+  "version": "1.0.0",
+  "description": "娱乐~",
+  "type": "module",
+  "dependencies": {
+    "axios": "*",
+    "nodemailer": "*"
+  }
+}
