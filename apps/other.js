@@ -18,6 +18,10 @@ export class example extends plugin {
                     reg: '^e丁真说(.*)$',
                     fnc: 'Dz'
                 },
+				{
+					reg: '^e手写(.*)$',
+					fnc: 'sx'
+				}
             ]
         });
     }
@@ -70,7 +74,7 @@ export class example extends plugin {
 
     async Dz(e) {
         try {
-			this.e.reply(segment.reply('等等哦，丁真在思考怎么说了~'))
+			this.e.reply('等等哦，丁真在思考怎么说了~')
 
 			const match = e.msg.match(/^e丁真说(.*)$/);
 
@@ -97,6 +101,29 @@ export class example extends plugin {
 		} catch (error) {
 			logger.error(error);
 			await e.reply('出错力');
+			return
+		}
+    }
+
+	async sx(e) {
+        try {
+			const match = e.msg.match(/^e手写(.*)$/);
+
+			if (!match) {
+				await e.reply('请输入文本');
+				return;
+			}
+
+			const shouxieTxt = match[1].trim();
+
+			const shouxie = await fetch(`http://api.yujn.cn/api/shouxie.php?text=${shouxieTxt}`);
+
+			this.e.reply(segment.image(shouxie));
+			return
+			
+		} catch (error) {
+			logger.error(error);
+			await e.reply('手写出错力');
 			return
 		}
     }

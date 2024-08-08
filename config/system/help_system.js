@@ -34,13 +34,18 @@ export const helpList = [
     ]
   },
   {
-    group: '语音功能',
+    group: '合成功能',
     list: [
       {
         icon: 75,
         title: 'e丁真说+<文本>',
         desc: '让丁真说句话叭'
       },
+      {
+        icon: 78,
+        title: 'e手写+<文本>',
+        desc: '模仿手写'
+      }
     ]
   },
   {
@@ -52,10 +57,60 @@ export const helpList = [
         desc: '随机小姐姐视频'
       },
       {
-        icon: 74,
+        icon: 30,
         title: 'e女大学生',
         desc: '随机女大学生视频'
       },
+      {
+        icon: 31,
+        title: 'e黑丝',
+        desc: '随机黑丝视频'
+      },
+      {
+        icon: 32,
+        title: 'e白丝',
+        desc: '随机白丝视频'
+      },
+      {
+        icon: 33,
+        title: 'e狱卒',
+        desc: '随机玉足视频'
+      },
+      {
+        icon: 34,
+        title: 'e慢摇',
+        desc: '随机慢摇视频'
+      },
+      {
+        icon: 35,
+        title: 'e吊带',
+        desc: '随机吊带视频'
+      },
+      {
+        icon: 36,
+        title: 'ecos',
+        desc: '随机cos视频'
+      },
+      {
+        icon: 37,
+        title: 'e清纯',
+        desc: '随机清纯视频'
+      },
+      {
+        icon: 38,
+        title: 'e女高',
+        desc: '随机女高视频'
+      },
+      {
+        icon: 39,
+        title: 'e甜妹',
+        desc: '随机甜妹视频'
+      },
+      {
+        icon: 74,
+        title: 'e萝莉',
+        desc: '随机萝莉视频'
+      }
     ]
   },
   {
