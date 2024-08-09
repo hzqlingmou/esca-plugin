@@ -1,10 +1,10 @@
 import plugin from '../../../lib/plugins/plugin.js';
-import fetch from 'node-fetch';
 import { segment } from 'oicq';
 import fs from 'fs';
+import fetch from 'node-fetch'; // Make sure to install node-fetch or another fetch polyfill for Node.js
 
 const escaData = 'data/esca-plugin';
-fs.mkdirSync(`${escaData}/temp`, { recursive: true });
+fs.mkdirSync(escaData + '/temp', { recursive: true });
 
 export class example extends plugin {
     constructor() {
@@ -111,28 +111,41 @@ export class example extends plugin {
 
 	async sx(e) {
         try {
-            this.e.reply('正在生成手写图片，请稍候...');
-
             const match = e.msg.match(/^e手写(.*)$/);
-
             if (!match) {
                 await e.reply('请输入要手写的文本');
                 return;
             }
 
-            const sxtxt = encodeURIComponent(match[1].trim());
-            const imageUrl = `http://api.yujn.cn/api/shouxie.php?text=${sxtxt}`;
+            const text = encodeURIComponent(match[1].trim());
+            const apiUrl = `http://api.yujn.cn/api/shouxie.php?text=${text}`;
             const imagePath = `${escaData}/temp/handwritten-${Date.now()}.png`;
 
-            const response = await fetch(imageUrl, { method: 'GET' });
-            const buffer = await response.buffer();
-
-            fs.writeFileSync(imagePath, buffer);
-
-            await e.reply(segment.image(imagePath));
+            this.e.reply('正在生成手写图片，请稍候...');
+            const response = await fetch(apiUrl);
+            if (response.ok) {
+                const blob = await response.blob();
+                await this.saveBase64Image(blob, imagePath);
+                e.reply(segment.image(imagePath));
+            } else {
+                throw new Error(`Failed to fetch image: ${response.statusText}`);
+            }
         } catch (error) {
-            console.error(error);
-            await e.reply('生成手写图片时出错');
+            console.error('生成手写图片时出错:', error);
+            e.reply('生成手写图片时出错');
         }
+    }
+
+    async saveBase64Image(blob, imagePath) {
+        return new Promise((resolve, reject) => {
+            const buffer = Buffer.from(blob);
+            fs.writeFile(imagePath, buffer, (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        });
     }
 }
