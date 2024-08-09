@@ -108,4 +108,31 @@ export class example extends plugin {
 			return
 		}
     }
+
+	async sx(e) {
+        try {
+            this.e.reply('正在生成手写图片，请稍候...');
+
+            const match = e.msg.match(/^e手写(.*)$/);
+
+            if (!match) {
+                await e.reply('请输入要手写的文本');
+                return;
+            }
+
+            const sxtxt = encodeURIComponent(match[1].trim());
+            const imageUrl = `http://api.yujn.cn/api/shouxie.php?text=${sxtxt}`;
+            const imagePath = `${escaData}/temp/handwritten-${Date.now()}.png`;
+
+            const response = await fetch(imageUrl, { method: 'GET' });
+            const buffer = await response.buffer();
+
+            fs.writeFileSync(imagePath, buffer);
+
+            await e.reply(segment.image(imagePath));
+        } catch (error) {
+            console.error(error);
+            await e.reply('生成手写图片时出错');
+        }
+    }
 }
