@@ -154,7 +154,7 @@ export class example extends plugin {
 			  const msg = await this.e.runtime.common.makeForwardMsg(e, esetu, '慢点冲哦❤~');
 			  const res = await e.reply(msg);
 			  const msg_id = res.message_id;
-			  wait(5000)
+			  await wait(50000)
 			  if (e.isGroup) {
 				// 群聊场景
 				await e.group.recallMsg(msg_id)
