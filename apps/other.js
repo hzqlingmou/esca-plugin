@@ -120,13 +120,17 @@ export class example extends plugin {
             const shouxieTxt = match[1].trim();
             const apiUrl = `http://api.yujn.cn/api/shouxie.php?text=${shouxieTxt}`;
 
-            // 请求图片
-            const response = await fetch(apiUrl);
-            const buffer = await response.buffer();
-
             // 定义相对路径
             const tempDir = resolve(dirname('../../../data/esca-plugin/temp'));
-            mkdirSync(tempDir, { recursive: true });
+
+            // 确保路径存在，如果不存在则创建
+            if (!existsSync(tempDir)) {
+                mkdirSync(tempDir, { recursive: true });
+            }
+
+            // 请求图片并保存为 buffer
+            const response = await fetch(apiUrl);
+            const buffer = await response.buffer();
 
             // 生成文件路径和名称
             const tempFilePath = resolve(tempDir, `shouxie_${Date.now()}.jpg`);
