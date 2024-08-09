@@ -27,7 +27,7 @@ export class example extends plugin {
 					fnc: 'esx'
 				},
 				{
-					reg: '^e文案$',
+					reg: '^e朋友圈文案$',
 					fnc: 'ewa'
 				}
             ]
