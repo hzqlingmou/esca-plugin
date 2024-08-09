@@ -22,6 +22,10 @@ export class example extends plugin {
                     reg: '^e丁真说(.*)$',
                     fnc: 'Dz'
                 },
+				{
+					reg: '^e手写(.*)$',
+					fnc: 'esx'
+				}
             ]
         });
     }
@@ -96,6 +100,31 @@ export class example extends plugin {
 			const { url } = yuyinData.data;
 
 			this.e.reply(segment.record(url));
+			return
+			
+		} catch (error) {
+			logger.error(error);
+			await e.reply('出错力');
+			return
+		}
+    }
+
+	async Dz(e) {
+        try {
+			this.e.reply('在写了在写了')
+
+			const match = e.msg.match(/^e手写(.*)$/);
+
+			if (!match) {
+				await e.reply('请输入合成文本');
+				return;
+			}
+
+			const shouxieTxt = match[1].trim();
+
+			const shouxieimg = `http://api.yujn.cn/api/shouxie.php?text=${shouxieTxt}`;
+
+			this.e.reply(segment.image(shouxieimg));
 			return
 			
 		} catch (error) {
