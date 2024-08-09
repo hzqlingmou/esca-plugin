@@ -2,8 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 // 定义配置文件路径
-const configPath = path.resolve(process.cwd(), 'config', 'config', 'img.json');
-const defaultConfigPath = path.resolve(process.cwd(), 'config', 'default_config', 'img.json');
+const configPath = path.resolve(process.cwd(), 'data', 'esca-plugin', 'config', 'config', 'img.json');
+const defaultConfigPath = path.resolve(process.cwd(), 'data', 'esca-plugin', 'config', 'default_config', 'img.json');
 
 
 let url1 = 'https://api.yujn.cn/api/gzl_ACG.php?type=image&form=pc' 
