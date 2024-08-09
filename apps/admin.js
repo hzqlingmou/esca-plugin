@@ -1,31 +1,32 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import lodash from 'lodash';
-import { Cfg, Common, Version, App } from '../components/index.js';
+import { App } from '../components/index.js';
 
-// 魔改自饼干插件
+// 定义配置文件路径
+const configPath = path.resolve(process.cwd(), 'config', 'config', 'img.json');
+const defaultConfigPath = path.resolve(process.cwd(), 'config', 'default_config', 'img.json');
 
-let keys = lodash.map(Cfg.getCfgSchemaMap(), 'key');
+// 初始化应用
 let app = App.init({
-  id: 'escapladmin',
+  id: 'esca-admin',
   name: '逸燧插件设置',
   desc: '逸燧插件设置'
 });
 
-let sysCfgReg = new RegExp(`^e设置\\s*(${keys.join('|')})?\\s*(.*)$`);
+// 定义命令正则表达式
+let toggleCfgReg = /^e切换$/;
 
+// 注册命令
 app.reg({
-  sysCfg: {
-    rule: sysCfgReg,
-    fn: sysCfg,
-    desc: '【#管理】系统设置'
+  toggleCfg: {
+    rule: toggleCfgReg,
+    fn: toggleCfg,
+    desc: '【逸燧插件sese】切换配置'
   }
 });
 
 export default app;
-
-const _path = process.cwd();
-const resPath = `${_path}/plugins/esca-plugin/resources/`;
-const plusPath = `${resPath}/miao-res-plus/`;
 
 /**
  * 检查是否有权限执行命令
@@ -41,53 +42,37 @@ const checkAuth = async function (e) {
 };
 
 /**
- * 处理系统设置命令
+ * 切换配置命令处理
  * @param {object} e - 消息事件对象
  * @returns {boolean}
  */
-async function sysCfg(e) {
+async function toggleCfg(e) {
   if (!await checkAuth(e)) {
     return true;
   }
 
-  let regRet = sysCfgReg.exec(e.msg);
-  if (!regRet) {
-    return true;
+  // 检查配置文件是否存在
+  if (!fs.existsSync(configPath)) {
+    // 如果不存在，从默认配置文件复制内容
+    if (fs.existsSync(defaultConfigPath)) {
+      fs.copyFileSync(defaultConfigPath, configPath);
+    } else {
+      // 如果默认配置文件也不存在，则创建一个空的配置文件
+      fs.writeFileSync(configPath, JSON.stringify({ sese: false }, null, 2), 'utf8');
+    }
   }
 
-  if (regRet[1]) {
-    let val = regRet[2] || '';
-    let cfgSchema = Cfg.getCfgSchemaMap()[regRet[1]];
+  // 读取配置文件
+  let configData = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
-    val = parseValue(cfgSchema, val);
-    Cfg.set(cfgSchema.cfgKey, val);
-  }
+  // 切换 sese 的值
+  configData.sese = !configData.sese;
 
-  let schema = Cfg.getCfgSchema();
-  let cfg = Cfg.getCfg();
-  let imgPlus = fs.existsSync(plusPath);
+  // 写入配置文件
+  fs.writeFileSync(configPath, JSON.stringify(configData, null, 2), 'utf8');
 
-  // 渲染图像
-  return await Common.render('admin/index', {
-    schema,
-    cfg,
-    imgPlus,
-    isMiao: Version.isMiao
-  }, { e, scale: 1.4 });
-}
+  // 通知用户配置已更新
+  await e.reply(`配置 "sese" 已切换为 "${configData.sese}"`);
 
-/**
- * 解析配置值
- * @param {object} cfgSchema - 配置架构对象
- * @param {string} val - 输入值
- * @returns {string|number|boolean} - 解析后的值
- */
-function parseValue(cfgSchema, val) {
-  if (cfgSchema.input) {
-    return cfgSchema.input(val);
-  } else if (cfgSchema.type === 'str') {
-    return (val || cfgSchema.def) + '';
-  } else {
-    return cfgSchema.type === 'num' ? (val * 1 || cfgSchema.def) : !/关闭/.test(val);
-  }
+  return true;
 }
