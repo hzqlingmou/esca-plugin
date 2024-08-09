@@ -17,7 +17,10 @@ function createDirectoryIfNotExists(directoryPath) {
 	} catch (error) {
 	  	console.error('Error creating directory:', error);
 	}
-}
+};
+function wait(ms) {
+    return new Promise(resolve => setTimeout(() => resolve(), ms));
+};
 
 let url1 = 'https://api.yujn.cn/api/gzl_ACG.php?type=image&form=pc' 
 let url2 = 'https://api.yujn.cn/api/long.php?type=image' 
@@ -148,9 +151,18 @@ export class example extends plugin {
 				segment.image(url6)
 			  ]
 
-			  const msg = await this.e.runtime.common.makeForwardMsg(e, esetu, '慢点冲哦❤~')
-
-			  await e.reply(msg);
+			  const msg = await this.e.runtime.common.makeForwardMsg(e, esetu, '慢点冲哦❤~');
+			  const res = await e.reply(msg);
+			  const msg_id = res.message_id;
+			  wait(5000)
+			  if (e.isGroup) {
+				// 群聊场景
+				await e.group.recallMsg(msg_id)
+			  } else {
+				// 好友场景
+				await e.friend.recallMsg(msg_id)
+			  }
+			  await e.reply();
 			  return;
 			} else {
 			  await e.reply('还没有开启涩涩功能哦，请使用“e切换”开启功能');
