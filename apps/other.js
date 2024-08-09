@@ -109,7 +109,7 @@ export class example extends plugin {
 		}
     }
 
-	async Dz(e) {
+	async esx(e) {
         try {
 			this.e.reply('在写了在写了')
 
