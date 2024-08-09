@@ -2,7 +2,6 @@ import plugin from '../../../lib/plugins/plugin.js';
 import fetch from 'node-fetch';
 import { segment } from 'oicq';
 import fs from 'fs';
-import { createWriteStream } from 'fs';
 
 const escaData = 'data/esca-plugin';
 fs.mkdirSync(`${escaData}/temp`, { recursive: true });
