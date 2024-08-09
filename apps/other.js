@@ -42,7 +42,7 @@ export class example extends plugin {
                     fnc: 'Dz'
                 },
 				{
-					reg: '^e手写',
+					reg: '/^e手写([\s\S]+)$/',
 					fnc: 'esx'
 				},
 				{
@@ -149,7 +149,7 @@ export class example extends plugin {
 
 			const shouxieTxt = match[1].trim();
 
-			const shouxieimg = `http://api.yujn.cn/api/shouxie.php?text=${shouxieTxt}`;
+			const shouxieimg = `http://api.yujn.cn/api/shouxie.php?text=${encodeURI(shouxieTxt)}`;
 
 			this.e.reply(segment.image(shouxieimg));
 			return
