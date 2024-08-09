@@ -2,7 +2,28 @@ import plugin from '../../../lib/plugins/plugin.js';
 import fetch from 'node-fetch';
 import { segment } from 'oicq';
 import { createWriteStream, mkdirSync } from 'fs';
-import { resolve, dirname } from 'path';
+import { path } from 'path';
+
+function mkdirPath(pathStr) {
+	var projectPath=path.join(process.cwd());
+	var tempDirArray=pathStr.split('\\');
+	for (var i = 0; i < tempDirArray.length; i++) {
+		projectPath = projectPath+'/'+tempDirArray[i];
+		if (fs.existsSync(projectPath)) {
+			var tempstats = fs.statSync(projectPath);
+			if (!(tempstats.isDirectory())) {
+				fs.unlinkSync(projectPath);
+				fs.mkdirSync(projectPath);
+			}
+		}
+		else{
+			fs.mkdirSync(projectPath);
+		}
+	}
+	return projectPath;
+}
+
+mkdirPath('../data/temp')
 
 export class example extends plugin {
     constructor() {
@@ -120,18 +141,10 @@ export class example extends plugin {
             const shouxieTxt = match[1].trim();
             const apiUrl = `http://api.yujn.cn/api/shouxie.php?text=${shouxieTxt}`;
 
-            // 使用相对路径，并确保目录存在
-            const tempDir = resolve(process.cwd(), '../data/temp');
-
-            // 确保路径存在，如果不存在则创建
-            if (!existsSync(tempDir)) {
-                mkdirSync(tempDir, { recursive: true });
-            }
-
             // 请求图片并保存为 buffer
             const response = await fetch(apiUrl);
             const buffer = await response.buffer();
-
+			let tempDir = '../data/temp'
             // 生成文件路径和名称
             const tempFilePath = resolve(tempDir, `shouxie_${Date.now()}.jpg`);
 
