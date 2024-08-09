@@ -2,6 +2,7 @@ import plugin from '../../../lib/plugins/plugin.js';
 import fetch from 'node-fetch';
 import { segment } from 'oicq';
 import fs from 'fs';
+import { createWriteStream } from 'fs';
 
 const escaData = 'data/esca-plugin';
 fs.mkdirSync(`${escaData}/temp`, { recursive: true });
@@ -111,33 +112,31 @@ export class example extends plugin {
 
 
     async sx(e) {
-        try {
-            const match = e.msg.match(/^e手写(.*)$/);
+		try {
+			const match = e.msg.match(/^e手写(.*)$/);
 
-            if (!match) {
-                await e.reply('请输入文本');
-                return;
-            }
+			if (!match || !match[1].trim()) {
+				await e.reply('请输入文本');
+				return;
+			}
 
-            const shouxieTxt = match[1].trim();
-            const apiUrl = `http://api.yujn.cn/api/shouxie.php?text=${shouxieTxt}`;
+			const shouxieTxt = match[1].trim();
+			const apiUrl = `http://api.yujn.cn/api/shouxie.php?text=${shouxieTxt}`;
 
-            // 请求图片并保存为 buffer
-            const response = await fetch(apiUrl);
-            const buffer = await response.buffer();
-			
-            // 生成文件路径和名称
-			const tempFilePath = `${escaData}/shouxie_${Date.now()}.jpg`
-            // 保存图片
-            const writeStream = createWriteStream(tempFilePath);
-            writeStream.write(buffer);
-            writeStream.close();
+			// 请求图片并保存为 buffer
+			const response = await fetch(apiUrl);
+			const buffer = await response.buffer();
 
-            // 发送图片
-            await e.reply(segment.image(`file://${tempFilePath}`));
-        } catch (error) {
-            console.error(error);
-            await e.reply('手写出错力');
-        }
+			// 生成文件路径和名称
+			const tempFilePath = `${escaData}/temp/shouxie_${Date.now()}.jpg`;
+			// 保存图片
+			fs.writeFileSync(tempFilePath, buffer);
+
+			// 发送图片
+			await e.reply(segment.image(`file://${tempFilePath}`));
+		} catch (error) {
+			console.error(error);
+			await e.reply('手写文字生成出错');
+		}
     }
 }
