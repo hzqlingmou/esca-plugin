@@ -1,6 +1,8 @@
 import plugin from '../../../lib/plugins/plugin.js';
 import fetch from 'node-fetch';
-
+import { segment } from 'oicq';
+import { createWriteStream, mkdirSync } from 'fs';
+import { resolve, dirname } from 'path';
 
 export class example extends plugin {
     constructor() {
@@ -105,26 +107,40 @@ export class example extends plugin {
 		}
     }
 
-	async sx(e) {
+
+    async sx(e) {
         try {
-			const match = e.msg.match(/^e手写(.*)$/);
+            const match = e.msg.match(/^e手写(.*)$/);
 
-			if (!match) {
-				await e.reply('请输入文本');
-				return;
-			}
+            if (!match) {
+                await e.reply('请输入文本');
+                return;
+            }
 
-			const shouxieTxt = match[1].trim();
+            const shouxieTxt = match[1].trim();
+            const apiUrl = `http://api.yujn.cn/api/shouxie.php?text=${shouxieTxt}`;
 
-			const shouxie = await fetch(`http://api.yujn.cn/api/shouxie.php?text=${shouxieTxt}`);
+            // 请求图片
+            const response = await fetch(apiUrl);
+            const buffer = await response.buffer();
 
-			this.e.reply(segment.image(shouxie));
-			return
-			
-		} catch (error) {
-			logger.error(error);
-			await e.reply('手写出错力');
-			return
-		}
+            // 定义相对路径
+            const tempDir = resolve(dirname('../../../data/esca-plugin/temp'));
+            mkdirSync(tempDir, { recursive: true });
+
+            // 生成文件路径和名称
+            const tempFilePath = resolve(tempDir, `shouxie_${Date.now()}.jpg`);
+
+            // 保存图片
+            const writeStream = createWriteStream(tempFilePath);
+            writeStream.write(buffer);
+            writeStream.close();
+
+            // 发送图片
+            await e.reply(segment.image(`file://${tempFilePath}`));
+        } catch (error) {
+            console.error(error);
+            await e.reply('手写出错力');
+        }
     }
 }
