@@ -41,6 +41,10 @@ git clone https://github.com/hzqlingmou/esca-plugin ./plugins/esca-plugin
 ```bash
 pnpm install --filter=esca-plugin
 ```
+
+## 使用
+*安装成功后发送“帮助”即可*
+
 ## [加入QQ交流群](https://qm.qq.com/q/Mf1D9HuL0u)
 
 ## 免责声明
