@@ -1,25 +1,10 @@
 import plugin from '../../../lib/plugins/plugin.js';
 import fetch from 'node-fetch';
 import { segment } from 'oicq';
-import { createWriteStream, mkdirSync, path } from 'fs';
+import fs from 'fs';
 
-
-function ensureFileExistence(filePath) {
-    // 获取文件目录路径
-    const dirPath = path.dirname(filePath);
-
-    // 确保目录存在
-    if (!fs.existsSync(dirPath)) {
-        fs.mkdirSync(dirPath, { recursive: true });
-        console.log(`Directory ${dirPath} created.`);
-    } else {
-        console.log(`Directory ${dirPath} already exists.`);
-    }
-}
-
-const filePath = path.resolve('../data/temp')
-ensureFileExistence(filePath)
-
+const escaData = 'data/esca-plugin';
+fs.mkdirSync(`${escaData}/temp`, { recursive: true });
 
 export class example extends plugin {
     constructor() {
@@ -140,10 +125,9 @@ export class example extends plugin {
             // 请求图片并保存为 buffer
             const response = await fetch(apiUrl);
             const buffer = await response.buffer();
-			let tempDir = '../data/temp'
+			
             // 生成文件路径和名称
-            const tempFilePath = resolve(tempDir, `shouxie_${Date.now()}.jpg`);
-
+			const tempFilePath = `${escaData}/shouxie_${Date.now()}.jpg`
             // 保存图片
             const writeStream = createWriteStream(tempFilePath);
             writeStream.write(buffer);
