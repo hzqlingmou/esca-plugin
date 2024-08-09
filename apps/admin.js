@@ -15,7 +15,7 @@ let app = App.init({
 });
 
 // 定义命令正则表达式
-let toggleCfgReg = /^e切换$/;
+const toggleCfgReg = /^e切换$/;
 
 // 注册命令
 app.reg({

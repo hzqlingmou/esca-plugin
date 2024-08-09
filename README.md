@@ -50,6 +50,9 @@ pnpm install --filter=esca-plugin
 ## 使用
 *安装成功后发送“帮助”即可*
 
+## 设置
+*本插件采用导出插件为js插件的形式运行，由于运行位置的影响，配置文件保存在*`Yunzai/data/esca-plugin/config/config`*目录*。*本人小白，还望高人指点优化代码！*
+
 ## [加入QQ交流群](https://qm.qq.com/q/Mf1D9HuL0u)
 
 ## 免责声明
