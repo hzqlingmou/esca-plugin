@@ -4,6 +4,7 @@ let url1 = 'https://api.yujn.cn/api/gzl_ACG.php?type=image&form=pc'
 let url2 = 'https://api.yujn.cn/api/long.php?type=image' 
 let url3 = 'http://api.yujn.cn/api/chaijun.php'
 let url4 = 'http://api.yujn.cn/api/yht.php?type=image'
+let url5 = 'http://api.yujn.cn/api/cxk.php?'
 
 export class example extends plugin {
 	constructor() {
@@ -28,6 +29,10 @@ export class example extends plugin {
 				{
 					reg: '^(e)?诱惑图$',
 					fnc: 'eyh'
+				},
+				{
+					reg: '^(e)?(小黑子|鸽鸽|你干嘛)$',
+					fnc: 'ecxk'
 				}
 			]
 		});
@@ -73,6 +78,17 @@ export class example extends plugin {
 			];
 			const msg = await this.e.runtime.common.makeForwardMsg(e, yht, '');
 			await this.e.reply(msg);
+			return;
+		} catch (error) {
+			console.error(error);
+			await e.reply('访问失败，可能是图片api失效，请联系开发者解决');
+			return;
+		}
+	}
+
+	async cxk(e) {
+		try {
+			await this.e.reply(segment.image(url5));
 			return;
 		} catch (error) {
 			console.error(error);

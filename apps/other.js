@@ -25,6 +25,10 @@ export class example extends plugin {
 				{
 					reg: '^e手写(.*)$',
 					fnc: 'esx'
+				},
+				{
+					reg: '^e文案$',
+					fnc: 'ewa'
 				}
             ]
         });
@@ -133,4 +137,26 @@ export class example extends plugin {
 			return
 		}
     }
+
+	async ewa(e) {
+		try {
+			const pyqwa = await fetch ('https://api.yujn.cn/api/pyq.php?type=json');
+			const pyqwaData = await pyqwa.json();
+
+			if ( pyqwaData.code !== 200 ) {
+				await e.reply('访问出错，可能是api失效');
+				return;
+			}
+
+			const { pyq } = pyqwaData;
+
+			e.reply(pyq);
+
+			return
+		} catch {
+			logger.error(error);
+			await e.reply('出错力');
+			return
+		}
+	} 
 }

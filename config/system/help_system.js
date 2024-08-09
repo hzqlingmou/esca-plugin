@@ -130,6 +130,21 @@ export const helpList = [
         icon: 71,
         title: 'e柴郡',
         desc: '可爱的柴郡表情包'
+      },
+      {
+        icon: 23,
+        title: 'e小黑子',
+        desc: '随机返回cxk表情包'
+      }
+    ]
+  },
+  {
+    group: '随机文案',
+    list: [
+      {
+        icon: 22,
+        title: 'e朋友圈文案',
+        desc: '返回一条朋友圈文案'
       }
     ]
   },
