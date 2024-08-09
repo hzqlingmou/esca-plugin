@@ -1,9 +1,8 @@
 import plugin from '../../../lib/plugins/plugin.js';
 import fetch from 'node-fetch';
 import { segment } from 'oicq';
-import { createWriteStream, mkdirSync } from 'fs';
+import { createWriteStream, mkdirSync, path } from 'fs';
 
-const path = require('path');
 
 function ensureFileExistence(filePath) {
     // 获取文件目录路径
