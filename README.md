@@ -21,7 +21,12 @@
 > 不知道是否适配v4，若v4用户安装请卸载
 #### 安装本体
 *在Yunzai根目录执行*
+**从gitee下载（国内）**
+```bash
+git clone https://gitee.com/escaped-spark/esca-plugin.git
+```
 
+**从github下载（国外）**
 ```bash
 git clone https://github.com/hzqlingmou/esca-plugin ./plugins/esca-plugin
 ```
