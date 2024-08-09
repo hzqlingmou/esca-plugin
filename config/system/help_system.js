@@ -41,11 +41,6 @@ export const helpList = [
         title: 'e丁真说+<文本>',
         desc: '让丁真说句话叭'
       },
-      {
-        icon: 78,
-        title: 'e手写+<文本>',
-        desc: '模仿手写'
-      }
     ]
   },
   {
