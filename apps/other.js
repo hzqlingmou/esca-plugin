@@ -2,28 +2,25 @@ import plugin from '../../../lib/plugins/plugin.js';
 import fetch from 'node-fetch';
 import { segment } from 'oicq';
 import { createWriteStream, mkdirSync } from 'fs';
-import { path } from 'path';
 
-function mkdirPath(pathStr) {
-	var projectPath=path.join(process.cwd());
-	var tempDirArray=pathStr.split('\\');
-	for (var i = 0; i < tempDirArray.length; i++) {
-		projectPath = projectPath+'/'+tempDirArray[i];
-		if (fs.existsSync(projectPath)) {
-			var tempstats = fs.statSync(projectPath);
-			if (!(tempstats.isDirectory())) {
-				fs.unlinkSync(projectPath);
-				fs.mkdirSync(projectPath);
-			}
-		}
-		else{
-			fs.mkdirSync(projectPath);
-		}
-	}
-	return projectPath;
+const path = require('path');
+
+function ensureFileExistence(filePath) {
+    // 获取文件目录路径
+    const dirPath = path.dirname(filePath);
+
+    // 确保目录存在
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
+        console.log(`Directory ${dirPath} created.`);
+    } else {
+        console.log(`Directory ${dirPath} already exists.`);
+    }
 }
 
-mkdirPath('../data/temp')
+const filePath = path.resolve('../data/temp')
+ensureFileExistence(filePath)
+
 
 export class example extends plugin {
     constructor() {
