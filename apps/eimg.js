@@ -1,5 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import plugin from '../../../lib/plugins/plugin.js';
+import { segment } from 'oicq';
+import lodash from 'lodash';
+import fetch from 'node-fetch'; // Make sure to install node-fetch or another fetch polyfill for Node.js
 
 // 定义配置文件路径
 const configPath = path.resolve(process.cwd(), 'data', 'esca-plugin', 'config', 'config', 'img.json');

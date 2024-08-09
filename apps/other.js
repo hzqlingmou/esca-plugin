@@ -1,9 +1,17 @@
 import plugin from '../../../lib/plugins/plugin.js';
 import { segment } from 'oicq';
 import fs from 'fs';
+import lodash from 'lodash';
 import fetch from 'node-fetch'; // Make sure to install node-fetch or another fetch polyfill for Node.js
 import path from 'node:path';
 
+const checkAuth = async function (e) {
+	if (!e.isMaster) {
+	  await e.reply(`只有主人才能命令窝哦~\n(*/ω＼*)`);
+	  return false;
+	}
+	return true;
+  };
 const configPath = path.resolve(process.cwd(), 'data', 'esca-plugin', 'config', 'config', 'img.json');
 const defaultConfigPath = path.resolve(process.cwd(), 'data', 'esca-plugin', 'config', 'default_config', 'img.json');
 
