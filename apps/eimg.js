@@ -8,7 +8,16 @@ import fetch from 'node-fetch'; // Make sure to install node-fetch or another fe
 // 定义配置文件路径
 const configPath = path.resolve(process.cwd(), 'data', 'esca-plugin', 'config', 'config', 'img.json');
 const defaultConfigPath = path.resolve(process.cwd(), 'data', 'esca-plugin', 'config', 'default_config', 'img.json');
-
+function createDirectoryIfNotExists(directoryPath) {
+	try {
+	  	if (!fs.existsSync(directoryPath)) {
+			fs.mkdirSync(directoryPath, { recursive: true });
+			return;
+	  	}
+	} catch (error) {
+	  	console.error('Error creating directory:', error);
+	}
+}
 
 let url1 = 'https://api.yujn.cn/api/gzl_ACG.php?type=image&form=pc' 
 let url2 = 'https://api.yujn.cn/api/long.php?type=image' 
@@ -114,6 +123,8 @@ export class example extends plugin {
 
 	async Ese(e) {
 		try {
+			createDirectoryIfNotExists(path.dirname(configPath));
+    		createDirectoryIfNotExists(path.dirname(defaultConfigPath));
 			// 检查配置文件是否存在
 			if (!fs.existsSync(configPath)) {
 			  // 如果不存在，从默认配置文件复制内容
@@ -134,7 +145,6 @@ export class example extends plugin {
 			// 根据'sese'的值发送不同的回复
 			if (seseValue == true) {
 			  const esetu = [
-				'涩图来啦~',
 				segment.image(url6)
 			  ]
 

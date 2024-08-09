@@ -14,6 +14,16 @@ const checkAuth = async function (e) {
   };
 const configPath = path.resolve(process.cwd(), 'data', 'esca-plugin', 'config', 'config', 'img.json');
 const defaultConfigPath = path.resolve(process.cwd(), 'data', 'esca-plugin', 'config', 'default_config', 'img.json');
+function createDirectoryIfNotExists(directoryPath) {
+	try {
+	  	if (!fs.existsSync(directoryPath)) {
+			fs.mkdirSync(directoryPath, { recursive: true });
+			return;
+	  	}
+	} catch (error) {
+	  	console.error('Error creating directory:', error);
+	}
+}
 
 export class example extends plugin {
     constructor() {
@@ -176,31 +186,35 @@ export class example extends plugin {
 	async admin(e) {
 		if (!await checkAuth(e)) {
 			return true;
-		  }
-		
-		  // 检查配置文件是否存在
-		  if (!fs.existsSync(configPath)) {
-			// 如果不存在，从默认配置文件复制内容
-			if (fs.existsSync(defaultConfigPath)) {
-			  fs.copyFileSync(defaultConfigPath, configPath);
-			} else {
-			  // 如果默认配置文件也不存在，则创建一个空的配置文件
-			  fs.writeFileSync(configPath, JSON.stringify({ sese: false }, null, 2), 'utf8');
+		} else {
+			// 创建必要的目录结构
+			createDirectoryIfNotExists(path.dirname(configPath));
+			createDirectoryIfNotExists(path.dirname(defaultConfigPath));
+
+			// 检查配置文件是否存在
+			if (!fs.existsSync(configPath)) {
+				// 如果不存在，从默认配置文件复制内容
+				if (fs.existsSync(defaultConfigPath)) {
+				  	fs.copyFileSync(defaultConfigPath, configPath);
+				} else {
+				  	// 如果默认配置文件也不存在，则创建一个空的配置文件
+				  	fs.writeFileSync(configPath, JSON.stringify({ sese: false }, null, 2), 'utf8');
+				}
 			}
-		  }
-		
-		  // 读取配置文件
-		  let configData = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-		
-		  // 切换 sese 的值
-		  configData.sese = !configData.sese;
-		
-		  // 写入配置文件
-		  fs.writeFileSync(configPath, JSON.stringify(configData, null, 2), 'utf8');
-		
-		  // 通知用户配置已更新
-		  await e.reply(`配置 "sese" 已切换为 "${configData.sese}"`);
-		
-		  return true;
+			
+			// 读取配置文件
+			let configData = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+			
+			// 切换 sese 的值
+			configData.sese = !configData.sese;
+			
+			// 写入配置文件
+			fs.writeFileSync(configPath, JSON.stringify(configData, null, 2), 'utf8');
+			
+			// 通知用户配置已更新
+			await e.reply(`配置 "sese" 已切换为 "${configData.sese}"`);
+			
+			return true;
+		}
 	}
 }
