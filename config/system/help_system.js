@@ -122,6 +122,11 @@ export const helpList = [
         desc: '随机美图'
       },
       {
+        icon: 67,
+        title: 'esese',
+        desc: '少儿不宜，少冲延年益寿'
+      },
+      {
         icon: 70,
         title: 'e龙图',
         desc: '龙年发龙图'
@@ -156,6 +161,11 @@ export const helpList = [
         icon: 35, 
         title: 'e更新', 
         desc: '更新逸燧插件' 
+      },
+      {
+        icon: 36,
+        title: 'e切换',
+        desc: '开启/关闭涩涩'
       }
     ]
   }
