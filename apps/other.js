@@ -120,8 +120,8 @@ export class example extends plugin {
             const shouxieTxt = match[1].trim();
             const apiUrl = `http://api.yujn.cn/api/shouxie.php?text=${shouxieTxt}`;
 
-            // 定义相对路径
-            const tempDir = resolve(dirname('../../../data/esca-plugin/temp'));
+            // 使用相对路径，并确保目录存在
+            const tempDir = resolve(process.cwd(), '../data/temp');
 
             // 确保路径存在，如果不存在则创建
             if (!existsSync(tempDir)) {
