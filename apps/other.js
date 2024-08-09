@@ -22,10 +22,6 @@ export class example extends plugin {
                     reg: '^e丁真说(.*)$',
                     fnc: 'Dz'
                 },
-				{
-					reg: '^e手写(.*)$',
-					fnc: 'sx'
-				}
             ]
         });
     }
@@ -107,45 +103,5 @@ export class example extends plugin {
 			await e.reply('出错力');
 			return
 		}
-    }
-
-	async sx(e) {
-        try {
-            const match = e.msg.match(/^e手写(.*)$/);
-            if (!match) {
-                await e.reply('请输入要手写的文本');
-                return;
-            }
-
-            const text = encodeURIComponent(match[1].trim());
-            const apiUrl = `http://api.yujn.cn/api/shouxie.php?text=${text}`;
-            const imagePath = `${escaData}/temp/handwritten-${Date.now()}.png`;
-
-            this.e.reply('正在生成手写图片，请稍候...');
-            const response = await fetch(apiUrl);
-            if (response.ok) {
-                const blob = await response.blob();
-                await this.saveBase64Image(blob, imagePath);
-                e.reply(segment.image(imagePath));
-            } else {
-                throw new Error(`Failed to fetch image: ${response.statusText}`);
-            }
-        } catch (error) {
-            console.error('生成手写图片时出错:', error);
-            e.reply('生成手写图片时出错');
-        }
-    }
-
-    async saveBase64Image(blob, imagePath) {
-        return new Promise((resolve, reject) => {
-            const buffer = Buffer.from(blob);
-            fs.writeFile(imagePath, buffer, (err) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            });
-        });
     }
 }
