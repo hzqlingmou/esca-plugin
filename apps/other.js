@@ -42,7 +42,7 @@ export class example extends plugin {
                     fnc: 'Dz'
                 },
 				{
-					reg: '^e手写(.*)$',
+					reg: '^e手写',
 					fnc: 'esx'
 				},
 				{
@@ -140,7 +140,7 @@ export class example extends plugin {
         try {
 			this.e.reply('在写了在写了')
 
-			const match = e.msg.match(/^e手写(.*)$/);
+			const match = e.msg.match(/^e手写([\s\S]+)$/);
 
 			if (!match) {
 				await e.reply('请输入合成文本');
