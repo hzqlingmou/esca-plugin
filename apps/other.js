@@ -42,7 +42,7 @@ export class example extends plugin {
                     fnc: 'Dz'
                 },
 				{
-					reg: '^e手写',
+					reg: '^e手写(.*)$',
 					fnc: 'esx'
 				},
 				{
