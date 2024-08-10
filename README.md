@@ -23,7 +23,7 @@
 *在Yunzai根目录执行*
 **从gitee下载（国内）**
 ```bash
-git clone https://gitee.com/escaped-spark/esca-plugin.git
+git clone https://gitee.com/escaped-spark/esca-plugin.git ./plugins/esca-plugin
 ```
 
 **从github下载（国外）**
