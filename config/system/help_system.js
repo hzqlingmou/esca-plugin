@@ -43,8 +43,13 @@ export const helpList = [
       },
       {
         icon: 80,
-        title: 'e手写+<文本（换行用\n）>',
+        title: 'e手写+<文本（换行用“下斜杠n”）>',
         desc: '模仿手写'
+      },
+      {
+        icon: 53,
+        title: '火车票[城市]到[城市]',
+        desc: '查询火车票'
       }
     ]
   },

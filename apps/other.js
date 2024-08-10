@@ -52,6 +52,10 @@ export class example extends plugin {
 				{
 					reg: '^e切换$',
 					fnc: 'admin'
+				},
+				{
+					reg: "^火车票(.*)到(.*)$",  // 匹配“火车票[城市]到[城市]”格式的消息
+					fnc: 'queryTickets' //作者：通义千问  嘎嘎厉害，快去使用  首发群695596638 经作者同意转载
 				}
             ]
         });
@@ -215,6 +219,83 @@ export class example extends plugin {
 			await e.reply(`配置 "sese" 已切换为 "${configData.sese}"`);
 			
 			return true;
+		}
+	}
+
+	async queryTickets(e) {
+		const match = e.msg.match(this.rule[0].reg);  // 使用正则表达式匹配消息
+		
+		if (!match) {
+		  	logger.error('无法解析火车票查询命令');
+		  	await e.reply('无法识别您的查询，请输入正确的格式，例如：“火车票北京到长沙”。', true);
+		  	return;
+		}
+	
+		const departure = match[1].trim();
+		const arrival = match[2].trim();
+		logger.info(`火车票查询请求: 从 ${departure} 到 ${arrival}`);
+	
+		let apiUrl = `https://api.lolimi.cn/API/hc/api.php?time=&arrival=${encodeURIComponent(arrival)}&departure=${encodeURIComponent(departure)}`;
+	
+		try {
+		  	const response = await fetch(apiUrl);
+		  	const data = await response.text();
+	
+		  	if (!data) {
+				await e.reply("获取火车票信息失败，请稍后重试。", true);
+				return;
+		  	}
+	
+		  	let bot = {
+				nickname: "哥哥没票了哦",
+				user_id: 1677979616
+		  	};
+	
+		  	let MsgList = [];
+		  	const ticketList = data.split('\n');  
+		  	const firstLine = ticketList[0];  
+		  	const remainingLines = ticketList.slice(2);
+		  	const chunkSize = 7;  // 默认每8行作为一个转发消息
+		  	let start = 0;  // 当前处理的位置
+	
+		  	// 处理第一行
+		  	MsgList.push({
+				message: [
+			  	firstLine
+				],
+				...bot,
+		  	});
+	
+		  	while (start < remainingLines.length) {
+				let end = start + chunkSize;
+	
+				// 如果剩余的行数不够chunkSize，或者这一组包含“无座”，则增加一行
+				if (end > remainingLines.length || remainingLines.slice(start, end).join('\n').includes('无座')) {
+				  end++;
+				}
+	
+				const chunk = remainingLines.slice(start, end);
+				const chunkText = chunk.join('\n');  
+				MsgList.push({
+			  		message: [
+					chunkText
+			  	],
+			  	...bot,
+				});
+	
+				start = end;  // 更新开始位置
+		  	}
+	
+		  	const msg = await e.reply([await e.group.makeForwardMsg(MsgList)]);  
+		  	if (!msg) {
+				logger.mark("消息发送失败");
+				return false;
+		  	}
+		  	return true;
+		} catch (error) {
+		  	logger.error(`获取火车票信息时出错：${error}`);
+		  	await this.e.reply("获取火车票信息失败，请稍后重试。", true);
+			return false;
 		}
 	}
 }
