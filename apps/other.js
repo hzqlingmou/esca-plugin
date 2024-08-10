@@ -248,8 +248,8 @@ export class example extends plugin {
             }
 
             let bot = {
-                nickname: "哥哥没票了哦",
-                user_id: 1677979616
+                nickname: e.sender.nickname,
+                user_id: e.user_id
             };
 
             let MsgList = [];
