@@ -50,7 +50,7 @@ export const helpList = [
       },
       {
         icon: 53,
-        title: '火车票[城市]到[城市]',
+        title: 'e火车票[城市]到[城市]',
         desc: '查询火车票'
       }
     ]
