@@ -144,7 +144,7 @@ export class example extends plugin {
         try {
 			this.e.reply('在写了在写了')
 
-			const match = e.msg.match(/^e手写(.*))$/)[1];
+			const match = e.msg.match(/^e手写(.*)$/);
 
 			if (!match) {
 				await e.reply('请输入合成文本');
