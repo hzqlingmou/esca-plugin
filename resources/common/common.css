@@ -33,7 +33,7 @@ body {
   box-sizing: border-box;
   background-size: cover;
   background-repeat: no-repeat;
-  background: url("https://api.zhilaohu.icu/mm");
+  background: url("https://api.escateam.icu/img/index.php?");
   backdrop-filter: blur(10px);
 }
 .container {
