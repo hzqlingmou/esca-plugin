@@ -40,7 +40,7 @@ let HelpTheme = {
     let theme = await HelpTheme.getThemeCfg(diyStyle.theme || sysStyle.theme, diyStyle.themeExclude || sysStyle.themeExclude)
     let themeStyle = theme.style || {}
     let ret = [`
-    body{background-image:url('https://api.escateam.icu/img/index.php?');width:${width}px;}
+    body{background-image:url('https://cdn.seovx.com/d/?mom=302');width:${width}px;}
     .container{background-image:url();width:${width}px;}
     .help-table .td,.help-table .th{width:${100 / colCount}%}
     `] // 备用api.zhilaohu.icu/mm
