@@ -28,6 +28,7 @@ let url3 = 'http://api.yujn.cn/api/chaijun.php'
 let url4 = 'http://api.yujn.cn/api/yht.php?type=image'
 let url5 = 'http://api.yujn.cn/api/cxk.php?'
 let url6 = 'http://api.yujn.cn/api/sese.php?'
+let url7 = 'http://api.yujn.cn/api/smj.php?'
 
 export class example extends plugin {
 	constructor() {
@@ -60,7 +61,11 @@ export class example extends plugin {
 				{
 					reg: '^esese$',
 					fnc: 'Ese'
-				}
+				},
+				{
+					reg: '^(e)?兽猫$',
+					fnc: 'esm'
+				},
 			]
 		});
 	}
@@ -172,6 +177,17 @@ export class example extends plugin {
 			console.error('Error reading or writing the configuration file:', error);
 			await e.reply('发生错误，请稍后再试。');
 			return;
+		}
+	}
+
+	async esm(e) {
+		try {
+			await this.e.reply(segment.image(url7));
+			return true;
+		} catch (error) {
+			console.error(error);
+			await e.reply('访问失败，可能是图片api失效，请联系开发者解决');
+			return true;
 		}
 	}
 }

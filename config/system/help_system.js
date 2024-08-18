@@ -145,6 +145,11 @@ export const helpList = [
         icon: 23,
         title: 'e小黑子',
         desc: '随机返回cxk表情包'
+      },
+      {
+        icon: 24,
+        title: 'e兽猫',
+        desc: '返回兽猫酱表情包'
       }
     ]
   },
