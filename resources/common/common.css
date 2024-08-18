@@ -33,7 +33,7 @@ body {
   box-sizing: border-box;
   background-size: cover;
   background-repeat: no-repeat;
-  background: url("https://api.escateam.icu/img/index.php?");
+  background: url("http://api.yujn.cn/api/pebizi.php?");
   backdrop-filter: blur(10px);
 }
 .container {
