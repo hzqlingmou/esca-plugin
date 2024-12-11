@@ -12,13 +12,15 @@
 </div>
 
 ## 介绍
-> 基于Yunzai-Bot框架开发的娱乐性插件
+> 基于Yunzai-Bot框架开发的功能性插件
 > 作者[逸燧EscapedSpark](https://escaped.icu)
 
 ## 安装方法
 
 > [!warning]
-> 不知道是否适配v4，若v4用户安装请卸载
+> 不知道是否适配v4，若v4用户安装请卸载。
+> 喵崽适配性未知，若报错请提issue。
+
 #### 安装本体
 *在Yunzai根目录执行*
 **从gitee下载（国内）**
@@ -53,7 +55,14 @@ pnpm install --filter=esca-plugin
 ## 设置
 *本插件采用导出插件为js插件的形式运行，由于运行位置的影响，配置文件保存在*`Yunzai/data/esca-plugin/config/config`*目录*。*本人小白，还望高人指点优化代码！*
 
-## [加入QQ交流群](https://qm.qq.com/q/Mf1D9HuL0u)
+## TODO（画饼）
+
+- [ ] 提高eimg.js，evideo.js中请求代码复用率。
+- [ ] 将配置功能重构，使配置文件存放在本插件目录中。
+- [ ] 重构帮助功能。
+- [ ] 重构帮助css。
+- [ ] 大工程：增加js库，实现快捷安装js插件至本插件以进行管理，并管理依赖。
+- [ ] 大工程：实现web-ui自助代挂。
 
 ## 免责声明
 
@@ -69,6 +78,7 @@ pnpm install --filter=esca-plugin
 - [TRSS-Yunzai](https://trss.me)
 
 ## 友情链接
+- [加入QQ交流群](https://qm.qq.com/q/Mf1D9HuL0u)
 - [代挂文档](https://botdocs.escateam.icu)
 - [作者博客](https://escaped.icu)
 - [朝天工作室](https://escateam.icu)
