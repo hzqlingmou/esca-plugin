@@ -74,123 +74,65 @@ export class example extends plugin {
 		});
 	}
 
-	async evxjj(e) {
-		try {
-			await e.reply(segment.video(xjjurl));
-			return true;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是视频api失效，请联系开发者解决');
-		}
+	async evxjj() {
+		await this.sendVideo(xjjurl);
 	}
 
-	async evdxs(e) {
-		try {
-			await e.reply(segment.video(dxsurl));
-			return true;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是视频api失效，请联系开发者解决');
-		}
+	async evdxs() {
+		await this.sendVideo(dxsurl);
 	}
 
-	async eheisi(e) {
-		try {
-			await e.reply(segment.video(hsurl));
-			return true;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是视频api失效，请联系开发者解决');
-		}
+	async eheisi() {
+		await this.sendVideo(hsurl);
 	}
 
-	async ebs(e) {
-		try {
-			await e.reply(segment.video(bsurl));
-			return true;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是视频api失效，请联系开发者解决');
-		}
+	async ebs() {
+		await this.sendVideo(bsurl);
 	}
 
-	async eyz(e) {
-		try {
-			await e.reply(segment.video(yzurl));
-			return true;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是视频api失效，请联系开发者解决');
-		}
+	async eyz() {
+		await this.sendVideo(yzurl);
 	}
 
-	async emy(e) {
-		try {
-			await e.reply(segment.video(myurl));
-			return true;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是视频api失效，请联系开发者解决');
-		}
+	async emy() {
+		await this.sendVideo(myurl);
 	}
 
-	async edd(e) {
-		try {
-			await e.reply(segment.video(ddurl));
-			return true;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是视频api失效，请联系开发者解决');
-		}
+	async edd() {
+		await this.sendVideo(ddurl);
 	}
 
-	async eqc(e) {
-		try {
-			await e.reply(segment.video(qcurl));
-			return true;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是视频api失效，请联系开发者解决');
-		}
+	async eqc() {
+		await this.sendVideo(qcurl);
 	}
 
-	async ecos(e) {
-		try {
-			await e.reply(segment.video(cosurl));
-			return true;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是视频api失效，请联系开发者解决');
-		}
+	async ecos() {
+		await this.sendVideo(cosurl);
 	}
 
-	async eng(e) {
-		try {
-			await e.reply(segment.video(ngurl));
-			return true;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是视频api失效，请联系开发者解决');
-		}
+	async eng() {
+		await this.sendVideo(ngurl);
 	}
 
-	async ell(e) {
-		try {
-			await e.reply(segment.video(llurl));
-			return true;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是视频api失效，请联系开发者解决');
-		}
+	async ell() {
+		await this.sendVideo(llurl);
 	}
 
-	async etm(e) {
+	async etm() {;
+		await this.sendVideo(tmurl);
+	}
+	async sendVideo(url) {
 		try {
-			await e.reply(segment.video(tmurl));
-			return true;
+			const response = await fetch(url);
+			if (!response.ok) {
+				throw new Error();
+			}
+			const arrayBuffer = await response.arrayBuffer();
+			const buffer = Buffer.from(arrayBuffer);
+			await this.reply(segment.video(buffer));
 		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是视频api失效，请联系开发者解决');
+			logger.error(error);
+			await this.reply('访问失败，可能是视频api失效，请联系开发者解决');
 		}
 	}
 }
