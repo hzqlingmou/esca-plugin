@@ -57,7 +57,7 @@ pnpm install --filter=esca-plugin
 
 ## TODO（画饼）
 
-- [ ] 提高eimg.js，evideo.js中请求代码复用率。
+- [x] 提高eimg.js，evideo.js中请求代码复用率。
 - [ ] 将配置功能重构，使配置文件存放在本插件目录中。
 - [ ] 重构帮助功能。
 - [ ] 重构帮助css。

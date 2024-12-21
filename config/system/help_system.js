@@ -42,11 +42,6 @@ export const helpList = [
     group: '合成功能',
     list: [
       {
-        icon: 75,
-        title: 'e丁真说+<文本>',
-        desc: '让丁真说句话叭'
-      },
-      {
         icon: 80,
         title: 'e手写+<文本（换行用“下斜杠n”）>',
         desc: '模仿手写'
@@ -140,11 +135,6 @@ export const helpList = [
         icon: 71,
         title: 'e柴郡',
         desc: '可爱的柴郡表情包'
-      },
-      {
-        icon: 23,
-        title: 'e小黑子',
-        desc: '随机返回cxk表情包'
       },
       {
         icon: 24,

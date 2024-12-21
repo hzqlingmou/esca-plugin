@@ -2,7 +2,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import plugin from '../../../lib/plugins/plugin.js';
 import { segment } from 'oicq';
-import lodash from 'lodash';
 import fetch from 'node-fetch'; // Make sure to install node-fetch or another fetch polyfill for Node.js
 
 // 定义配置文件路径
@@ -55,10 +54,6 @@ export class example extends plugin {
 					fnc: 'eyh'
 				},
 				{
-					reg: '^(e)?(小黑子|鸽鸽|你干嘛)$',
-					fnc: 'ecxk'
-				},
-				{
 					reg: '^esese$',
 					fnc: 'Ese'
 				},
@@ -70,37 +65,16 @@ export class example extends plugin {
 		});
 	}
 
-    async eimg(e) {
-		try {
-			await this.e.reply(segment.image(url1));
-			return true;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是图片api失效，请联系开发者解决');
-			return true;
-		}
+    async eimg() {
+		await this.sendimg(url1);
 	}
 
-	async elt(e) {
-		try {
-			await this.e.reply(segment.image(url2));
-			return true;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是图片api失效，请联系开发者解决');
-			return true;
-		}
+	async elt() {
+		await this.sendimg(url2);
 	}
 
-	async ecj(e) {
-		try {
-			await this.e.reply(segment.image(url3))
-			return;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是图片api失效，请联系开发者解决');
-			return;
-		}
+	async ecj() {
+		await this.sendimg(url3);
 	}
 
 	async eyh(e) {
@@ -110,17 +84,6 @@ export class example extends plugin {
 			];
 			const msg = await this.e.runtime.common.makeForwardMsg(e, yht, '');
 			await this.e.reply(msg);
-			return;
-		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是图片api失效，请联系开发者解决');
-			return;
-		}
-	}
-
-	async cxk(e) {
-		try {
-			await this.e.reply(segment.image(url5));
 			return;
 		} catch (error) {
 			console.error(error);
@@ -180,14 +143,22 @@ export class example extends plugin {
 		}
 	}
 
-	async esm(e) {
+	async esm() {
+		await this.sendimg(url7);
+	}
+
+	async sendimg(url) {
 		try {
-			await this.e.reply(segment.image(url7));
-			return true;
+			const response = await fetch(url);
+			if (!response.ok) {
+				throw new Error();
+			}
+			const arrayBuffer = await response.arrayBuffer();
+			const buffer = Buffer.from(arrayBuffer);
+			await this.reply(segment.image(buffer));
 		} catch (error) {
-			console.error(error);
-			await e.reply('访问失败，可能是图片api失效，请联系开发者解决');
-			return true;
+			logger.error(error);
+			await this.reply('访问失败，可能是图片api失效，请联系开发者解决');
 		}
 	}
 }
