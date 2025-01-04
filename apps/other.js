@@ -1,7 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js';
 import { segment } from 'oicq';
 import fs from 'fs';
-import lodash from 'lodash';
 import fetch from 'node-fetch'; // Make sure to install node-fetch or another fetch polyfill for Node.js
 import path from 'node:path';
 
