@@ -14,7 +14,7 @@ let uping = false
 /**
  * 处理插件更新
  */
-export class Update extends plugin {
+export class esca_Update extends plugin {
     constructor() {
         super({
             name: '更新逸燧插件',

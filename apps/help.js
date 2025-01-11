@@ -3,7 +3,7 @@ import lodash from 'lodash'
 import { Common, Data } from '../components/index.js'
 import Theme from './help/HelpTheme.js'
 
-export class xiaofei_help extends plugin {
+export class esca_help extends plugin {
   constructor() {
     super({
       /** 功能名称 */

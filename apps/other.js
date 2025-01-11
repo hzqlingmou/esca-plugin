@@ -1,30 +1,8 @@
 import plugin from '../../../lib/plugins/plugin.js';
 import { segment } from 'oicq';
-import fs from 'fs';
 import fetch from 'node-fetch'; // Make sure to install node-fetch or another fetch polyfill for Node.js
-import path from 'node:path';
 
-const checkAuth = async function (e) {
-	if (!e.isMaster) {
-	  await e.reply(`只有主人才能命令窝哦~\n(*/ω＼*)`);
-	  return false;
-	}
-	return true;
-  };
-const configPath = path.resolve(process.cwd(), 'data', 'esca-plugin', 'config', 'config', 'img.json');
-const defaultConfigPath = path.resolve(process.cwd(), 'data', 'esca-plugin', 'config', 'default_config', 'img.json');
-function createDirectoryIfNotExists(directoryPath) {
-	try {
-	  	if (!fs.existsSync(directoryPath)) {
-			fs.mkdirSync(directoryPath, { recursive: true });
-			return;
-	  	}
-	} catch (error) {
-	  	console.error('Error creating directory:', error);
-	}
-}
-
-export class example extends plugin {
+export class esca_other extends plugin {
     constructor() {
         super({
             name: '逸燧插件其他',
@@ -36,10 +14,6 @@ export class example extends plugin {
                     reg: '^e查询备案(.*)$',
                     fnc: 'beian'
                 },
-                {
-                    reg: '^e丁真说(.*)$',
-                    fnc: 'Dz'
-                },
 				{
 					reg: '^e手写(.*)$',
 					fnc: 'esx'
@@ -47,10 +21,6 @@ export class example extends plugin {
 				{
 					reg: '^e朋友圈文案$',
 					fnc: 'ewa'
-				},
-				{
-					reg: '^e切换$',
-					fnc: 'admin'
 				},
 				{
 					reg: "^e火车票(.*)到(.*)$",  // 匹配“火车票[城市]到[城市]”格式的消息
@@ -106,39 +76,6 @@ export class example extends plugin {
 		}
     }
 
-    async Dz(e) {
-        try {
-			this.e.reply('等等哦，丁真在思考怎么说了~')
-
-			const match = e.msg.match(/^e丁真说(.*)$/);
-
-			if (!match) {
-				await e.reply('请输入合成文本');
-				return;
-			}
-
-			const txt = match[1].trim();
-
-			const yuyin = await fetch(`https://qtkj.love/api/AI_Speaker/?speaker=dinzheng&message=${txt}`);
-			const yuyinData = await yuyin.json();
-
-			if (yuyinData.code !== 200 || !yuyinData.data) {
-				await e.reply('合成出错，请检查说话内容中是否有特殊字符');
-				return;
-			}
-
-			const { url } = yuyinData.data;
-
-			this.e.reply(segment.record(url));
-			return
-			
-		} catch (error) {
-			logger.error(error);
-			await e.reply('出错力');
-			return
-		}
-    }
-
 	async esx(e) {
         try {
 			this.e.reply('在写了在写了')
@@ -183,41 +120,6 @@ export class example extends plugin {
 			logger.error(error);
 			await e.reply('出错力');
 			return
-		}
-	}
-
-	async admin(e) {
-		if (!await checkAuth(e)) {
-			return true;
-		} else {
-			// 创建必要的目录结构
-			createDirectoryIfNotExists(path.dirname(configPath));
-			createDirectoryIfNotExists(path.dirname(defaultConfigPath));
-
-			// 检查配置文件是否存在
-			if (!fs.existsSync(configPath)) {
-				// 如果不存在，从默认配置文件复制内容
-				if (fs.existsSync(defaultConfigPath)) {
-				  	fs.copyFileSync(defaultConfigPath, configPath);
-				} else {
-				  	// 如果默认配置文件也不存在，则创建一个空的配置文件
-				  	fs.writeFileSync(configPath, JSON.stringify({ sese: false }, null, 2), 'utf8');
-				}
-			}
-			
-			// 读取配置文件
-			let configData = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-			
-			// 切换 sese 的值
-			configData.sese = !configData.sese;
-			
-			// 写入配置文件
-			fs.writeFileSync(configPath, JSON.stringify(configData, null, 2), 'utf8');
-			
-			// 通知用户配置已更新
-			await e.reply(`配置 "sese" 已切换为 "${configData.sese}"`);
-			
-			return true;
 		}
 	}
 

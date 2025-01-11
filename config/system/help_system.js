@@ -164,8 +164,13 @@ export const helpList = [
       },
       {
         icon: 36,
-        title: 'e切换',
+        title: 'esese切换',
         desc: '开启/关闭涩涩'
+      },
+      {
+        icon: 37,
+        title: 'e重置设置',
+        desc: '重置设置'
       }
     ]
   }

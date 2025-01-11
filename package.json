@@ -1,11 +1,12 @@
 {
   "name": "esca-plugin",
   "author": "hzqlingmou",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "基于TRSS-Yunzai的一个功能性插件",
   "type": "module",
   "dependencies": {
     "axios": "*",
-    "nodemailer": "*"
+    "nodemailer": "*",
+    "js-yaml": "*"
   }
 }

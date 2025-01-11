@@ -14,7 +14,7 @@ let ngurl = 'http://api.yujn.cn/api/nvgao.php?type=video';
 let llurl = 'http://api.yujn.cn/api/luoli.php?type=video';
 let tmurl = 'http://api.yujn.cn/api/tianmei.php?type=video';
 
-export class example extends plugin {
+export class esca_video extends plugin {
 	constructor() {
 		super({
 			name: 'evideo',

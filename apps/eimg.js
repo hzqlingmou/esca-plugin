@@ -1,35 +1,23 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from 'fs/promises';
+import yaml from 'js-yaml';
 import plugin from '../../../lib/plugins/plugin.js';
 import { segment } from 'oicq';
 import fetch from 'node-fetch'; // Make sure to install node-fetch or another fetch polyfill for Node.js
+import { eCfgPath } from './admin.js';
 
-// 定义配置文件路径
-const configPath = path.resolve(process.cwd(), 'data', 'esca-plugin', 'config', 'config', 'img.json');
-const defaultConfigPath = path.resolve(process.cwd(), 'data', 'esca-plugin', 'config', 'default_config', 'img.json');
-function createDirectoryIfNotExists(directoryPath) {
-	try {
-	  	if (!fs.existsSync(directoryPath)) {
-			fs.mkdirSync(directoryPath, { recursive: true });
-			return;
-	  	}
-	} catch (error) {
-	  	console.error('Error creating directory:', error);
-	}
-};
 function wait(ms) {
-    return new Promise(resolve => setTimeout(() => resolve(), ms));
+	return new Promise(resolve => setTimeout(() => resolve(), ms));
 };
 
-let url1 = 'https://api.yujn.cn/api/gzl_ACG.php?type=image&form=pc' 
-let url2 = 'https://api.yujn.cn/api/long.php?type=image' 
+let url1 = 'https://api.yujn.cn/api/gzl_ACG.php?type=image&form=pc'
+let url2 = 'https://api.yujn.cn/api/long.php?type=image'
 let url3 = 'http://api.yujn.cn/api/chaijun.php'
 let url4 = 'http://api.yujn.cn/api/yht.php?type=image'
 let url5 = 'http://api.yujn.cn/api/cxk.php?'
 let url6 = 'http://api.yujn.cn/api/sese.php?'
 let url7 = 'http://api.yujn.cn/api/smj.php?'
 
-export class example extends plugin {
+export class esca_img extends plugin {
 	constructor() {
 		super({
 			name: 'eimg',
@@ -65,7 +53,17 @@ export class example extends plugin {
 		});
 	}
 
-    async eimg() {
+	async loadConfig() {
+		try {
+			const fileContents = await fs.readFile(eCfgPath, 'utf8');
+			return yaml.load(fileContents);
+		} catch (error) {
+			logger.error('加载配置文件失败:', error);
+			throw new Error('无法读取配置文件，请检查路径或文件权限');
+		}
+	}
+
+	async eimg() {
 		await this.sendimg(url1);
 	}
 
@@ -94,51 +92,38 @@ export class example extends plugin {
 
 	async Ese(e) {
 		try {
-			createDirectoryIfNotExists(path.dirname(configPath));
-    		createDirectoryIfNotExists(path.dirname(defaultConfigPath));
-			// 检查配置文件是否存在
-			if (!fs.existsSync(configPath)) {
-			  // 如果不存在，从默认配置文件复制内容
-			  if (fs.existsSync(defaultConfigPath)) {
-				fs.copyFileSync(defaultConfigPath, configPath);
-			  } else {
-				// 如果默认配置文件也不存在，则创建一个空的配置文件
-				fs.writeFileSync(configPath, JSON.stringify({ sese: false }, null, 2), 'utf8');
-			  }
-			}
-		
-			// 读取配置文件
-			const configData = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-		
-			// 获取'sese'布尔值
-			const seseValue = configData.sese;
-		
-			// 根据'sese'的值发送不同的回复
-			if (seseValue == true) {
-			  const esetu = [
-				segment.image(url6)
-			  ]
+			const config = await this.loadConfig();
 
-			  const msg = await this.e.runtime.common.makeForwardMsg(e, esetu, '慢点冲哦❤~');
-			  const res = await e.reply(msg);
-			  const msg_id = res.message_id;
-			  await wait(50000)
-			  if (e.isGroup) {
-				// 群聊场景
-				await e.group.recallMsg(msg_id)
-			  } else {
-				// 好友场景
-				await e.friend.recallMsg(msg_id)
-			  }
-			  await e.reply();
-			  return;
+			// 根据'esese'的值发送不同的回复
+			if (config.esese == true) {
+				const esetu = [
+					segment.image(url6)
+				]
+
+				const msg = await this.e.runtime.common.makeForwardMsg(e, esetu, '慢点冲哦❤~');
+				const res = await e.reply(msg);
+				const msg_id = res.message_id;
+				await wait(50000)
+				if (e.isGroup) {
+					// 群聊场景
+					await e.group.recallMsg(msg_id)
+				} else {
+					// 好友场景
+					await e.friend.recallMsg(msg_id)
+				}
+				return;
 			} else {
-			  await e.reply('还没有开启涩涩功能哦，请使用“e切换”开启功能');
-			  return;
+				if (typeof config.esese === 'boolean') {
+					await e.reply('还没有开启涩涩功能哦，请使用“esese切换”开启功能');
+					return;
+				} else {
+					await e.reply('esese 配置变量类错误，请使用“e重置设置”刷新配置文件');
+					return;
+				}
 			}
 		} catch (error) {
 			console.error('Error reading or writing the configuration file:', error);
-			await e.reply('发生错误，请稍后再试。');
+			await e.reply('发生错误，请使用“e重置设置”刷新配置文件');
 			return;
 		}
 	}
