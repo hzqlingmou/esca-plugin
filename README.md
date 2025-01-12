@@ -12,14 +12,14 @@
 </div>
 
 ## 介绍
-> 基于Yunzai-Bot框架开发的功能性插件
+> 基于TRSS-Yunzai框架的功能性插件 <br>
 > 作者[逸燧EscapedSpark](https://escaped.icu)
 
 ## 安装方法
 
 > [!warning]
-> 不知道是否适配v4，若v4用户安装请卸载。
-> 喵崽适配性未知，若报错请提issue。
+> 不适配v4，v4用户请勿安装。 <br>
+> 喵崽适配性未知，喵崽用户请勿安装。
 
 #### 安装本体
 *在Yunzai根目录执行*
@@ -52,8 +52,18 @@ pnpm install --filter=esca-plugin
 ## 使用
 *安装成功后发送“e帮助”即可*
 
-## 设置
-*本插件采用导出插件为js插件的形式运行，由于运行位置的影响，配置文件保存在*`Yunzai/data/esca-plugin/config/config`*目录*。*本人小白，还望高人指点优化代码！*
+## 设置相关
+
+> [!warning]
+> 初次使用本插件请先使用`e重置设置`初始化
+
+- ⬇️管理指令⬇️
+- `esese切换`：打开/关闭涩涩功能
+- `e重置设置`：重置所有设置项
+
+| 项 | 值 | 类 |
+|----|----|----|
+| esese | true/false | boolean |
 
 ## TODO（画饼）
 
@@ -74,14 +84,12 @@ pnpm install --filter=esca-plugin
 - 如有侵权请提交issues，看到立即删除
 
 ## 特别鸣谢
-- [饼干插件](https://gitee.com/Yummy-cookie/biscuit-plugin)
 - [TRSS-Yunzai](https://trss.me)
 
 ## 友情链接
 - [加入QQ交流群](https://qm.qq.com/q/Mf1D9HuL0u)
 - [代挂文档](https://botdocs.escateam.icu)
-- [作者博客](https://escaped.icu)
+- [逸燧博客](https://escaped.icu)
 - [朝天工作室](https://escateam.icu)
-- [朝天商店](https://shop.escateam.icu)
 - [逸燧资源库](https://mirror.escateam.icu)
 - [朝天云监控](https://status.escateam.icu)
