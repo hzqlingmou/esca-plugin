@@ -117,12 +117,12 @@ export class esca_img extends plugin {
 					await e.reply('还没有开启涩涩功能哦，请使用“esese切换”开启功能');
 					return;
 				} else {
-					await e.reply('esese 配置变量类错误，请使用“e重置设置”刷新配置文件');
+					await e.reply('esese 配置变量类错误，请使用“esese初始化”刷新');
 					return;
 				}
 			}
 		} catch (error) {
-			console.error('Error reading or writing the configuration file:', error);
+			logger.error('[esca-plugin] esese发送图片异常', error);
 			await e.reply('发生错误，请使用“e重置设置”刷新配置文件');
 			return;
 		}

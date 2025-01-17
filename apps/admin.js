@@ -1,12 +1,12 @@
 import plugin from '../../../lib/plugins/plugin.js';
-import fs from 'fs/promises'; 
+import fs from 'fs/promises';
 import yaml from 'js-yaml';
 import path from "path";
 
 let AppName = "esca-plugin";
 const firstName = path.join('plugins', AppName);
-const eCfgPath = path.resolve(firstName, 'config', 'config','config.yaml');
-const eDefaultCfgPath = path.resolve(firstName, 'config','default_config', 'config.yaml');
+const eCfgPath = path.resolve(firstName, 'config', 'config', 'config.yaml');
+const eDefaultCfgPath = path.resolve(firstName, 'config', 'default_config', 'config.yaml');
 
 export { eCfgPath, eDefaultCfgPath };
 
@@ -29,6 +29,10 @@ export class esca_admin extends plugin {
                 {
                     reg: '^esese切换$',
                     fnc: 'eChange'
+                },
+                {
+                    reg: '^esese(重置|初始化)$',
+                    fnc: 'eInit'
                 },
                 {
                     reg: '^e重置设置$',
@@ -96,12 +100,15 @@ export class esca_admin extends plugin {
                 config.esese = !config.esese;
                 await this.saveConfig(config);
                 await e.reply(`涩涩功能已${config.esese ? '开启' : '关闭'}`);
+                return true;
             } else {
-                await e.reply('esese 配置变量类错误，请使用“e重置设置”刷新配置文件');
+                await e.reply('esese 配置变量类错误，请使用“esese初始化”刷新配置文件');
+                return false;
             }
         } catch (error) {
             logger.error('[esca-plugin] 切换配置项失败:', error);
-            await e.reply('修改配置错误，请重试或重置配置文件');
+            await e.reply('修改配置错误，请重试');
+            return false;
         }
     }
 
@@ -139,7 +146,31 @@ export class esca_admin extends plugin {
             await e.reply('配置文件已重置');
         } catch (error) {
             logger.error('[esca-plugin] 重置配置文件失败:', error);
-            await e.reply('重置配置文件失败，请检查文件目录权限后尝试手动重置');
+            await e.reply('重置配置文件失败，请检查文件目录权限');
+        }
+    }
+
+    async eInit(e) {
+        if (!await checkAuth(e)) {
+            return true;
+        }
+
+        // 确保配置文件存在
+        if (!await this.ensureConfigExists(e)) {
+            return true;
+        }
+
+        // 尝试初始化esese项
+        try {
+            let config = await this.loadConfig();
+            config.esese = false;
+            await this.saveConfig(config);
+            await e.reply('esese配置项已初始化');
+            return true;
+        } catch (error) {
+            logger.error('[esca-plugin] 初始化esese失败:', error);
+            await e.reply('初始化esese失败，请重试或重置配置文件');
+            return false;
         }
     }
 }

@@ -2,7 +2,7 @@
 
 # Esca-Plugin
 
-<img src="https://pi.escaped.icu/1.png" width = 200px height = 200px />
+<img src="./logo/1.png" width = 200px height = 200px />
 
 <br>
 
@@ -32,16 +32,6 @@ git clone https://gitee.com/escaped-spark/esca-plugin.git ./plugins/esca-plugin
 ```bash
 git clone https://github.com/hzqlingmou/esca-plugin ./plugins/esca-plugin
 ```
-> [!tip]
-> 如果您所在的网络环境较差，请使用代理下载 <br>
-> gh代理
-> ```bash
-> git clone https://mirror.ghproxy.com/https://github.com/hzqlingmou/esca-plugin ./plugins/esca-plugin
-> ```
-> 如果仍然卡的跟史一样，可使用作者自建代理
-> ```bash
-> git clone https://proxy.escateam.icu/https://github.com/hzqlingmou/esca-plugin ./plugins/esca-plugin
-> ```
 
 #### 安装依赖
 *在云崽根目录执行*
