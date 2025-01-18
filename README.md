@@ -22,7 +22,7 @@
 > 喵崽适配性未知，喵崽用户请勿安装。
 
 #### 安装本体
-*在Yunzai根目录执行*
+*在云崽根目录执行* <br>
 **从gitee下载（国内）**
 ```bash
 git clone https://gitee.com/escaped-spark/esca-plugin.git ./plugins/esca-plugin
@@ -51,6 +51,7 @@ pnpm install --filter=esca-plugin
 - `esese切换`：打开/关闭涩涩功能
 - `e重置设置`：重置所有设置项
 
+配置文件
 | 项 | 值 | 类 |
 |----|----|----|
 | esese | true/false | boolean |
