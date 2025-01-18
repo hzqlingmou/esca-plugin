@@ -42,16 +42,6 @@ export class esca_admin extends plugin {
         });
     }
 
-    async loadConfig() {
-        try {
-            const fileContents = await fs.readFile(eCfgPath, 'utf8');
-            return yaml.load(fileContents);
-        } catch (error) {
-            logger.error('[esca-plugin] 加载配置文件失败:', error);
-            throw new Error('无法读取配置文件，请检查路径或文件权限');
-        }
-    }
-
     async saveConfig(config) {
         try {
             const updatedContents = yaml.dump(config);
@@ -91,23 +81,48 @@ export class esca_admin extends plugin {
         }
     }
 
+    async loadConfig() {
+        try {
+            const fileContents = await fs.readFile(eCfgPath, 'utf8');
+            return yaml.load(fileContents) || {}; // 确保返回的对象不会是 undefined
+        } catch (error) {
+            logger.error('[esca-plugin] 加载配置文件失败:', error);
+            throw new Error('无法读取配置文件，请检查路径或文件权限');
+        }
+    }
+    
     async toggleEsese(e) {
         try {
             let config = await this.loadConfig();
-
-            // 切换 esese 的值
-            if (typeof config.esese === 'boolean') {
+    
+            // 检查 config 是否为 undefined
+            if (config === undefined) {
+                await e.reply('加载配置文件发生错误，请检查配置文件或使用“e重置设置”重置配置');
+                return false;
+            }
+    
+            // 如果 esese 不存在，则设置默认值并保存
+            if (!('esese' in config)) {
+                await e.reply('esese 配置项不存在或未定义，请使用“esese初始化”刷新配置');
+                return false;
+            } else if (typeof config.esese === 'boolean') {
+                // 确保 esese 是布尔类型后切换其值
                 config.esese = !config.esese;
+    
+                // 保存更新后的配置
                 await this.saveConfig(config);
+    
+                // 回复用户当前状态
                 await e.reply(`涩涩功能已${config.esese ? '开启' : '关闭'}`);
                 return true;
             } else {
-                await e.reply('esese 配置变量类错误，请使用“esese初始化”刷新配置文件');
+                // 如果 esese 不是布尔类型，提示用户初始化配置文件
+                await e.reply('esese 配置变量类错误，请使用“esese初始化”刷新配置');
                 return false;
             }
         } catch (error) {
             logger.error('[esca-plugin] 切换配置项失败:', error);
-            await e.reply('修改配置错误，请重试');
+            await e.reply('修改配置错误，请重试或联系开发者');
             return false;
         }
     }
