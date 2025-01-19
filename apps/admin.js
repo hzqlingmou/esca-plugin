@@ -332,7 +332,7 @@ export class esca_admin extends plugin {
         let message = '-----逸燧插件设置-----\n';
         message +=    `涩涩功能已${config.esese !== undefined && config.esese ? '开启' : '关闭'}\n`;
         message +=    `自动更新已${config.autoUpdate !== undefined && config.autoUpdate ? '开启' : '关闭'}\n`;
-        message +=    '---------------------\n';
+        message +=    '------------------------\n';
         message +=    '--发送“e帮助”查看指令--';
 
         // 发送配置信息
