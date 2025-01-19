@@ -1,3 +1,5 @@
 #true为开启，false为关闭
 #涩涩图片功能的开启或关闭（布尔值）
 esese: false
+
+autoUpdate: true

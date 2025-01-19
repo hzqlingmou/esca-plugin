@@ -3,6 +3,7 @@ import { createRequire } from 'module'
 import _ from 'lodash'
 import { Restart } from '../../other/restart.js'
 import common from "../../../lib/common/common.js"
+import { config } from 'process'
 
 const require = createRequire(import.meta.url)
 const { exec, execSync } = require('child_process')
@@ -12,37 +13,56 @@ let uping = false
 /**
  * 处理插件更新
  */
-export class esca_Update extends plugin {
+export class esca_auto_Update extends plugin {
     constructor() {
         super({
             name: '更新逸燧插件',
             dsc: '插件更新',
             event: 'message',
             priority: 10,
-            rule: [
-                {
-                    reg: '^e*(插件)?(强制)?更新$',
-                    fnc: 'update'
-                }
-            ]
         })
+
+        this.task = {
+            name: '更新逸燧插件',
+            cron: '0 0 0 1/1 *',
+            fnc: 'update'
+        }
+    }
+
+    async loadConfig() {
+        try {
+            const fileContents = await fs.readFile(eCfgPath, 'utf8');
+            return yaml.load(fileContents) || {};
+        } catch (error) {
+            logger.error('[esca-plugin] 加载配置文件失败:', error);
+            throw new Error('无法读取配置文件，请检查路径或文件权限');
+        }
     }
     /**
      * rule - 更新逸燧插件
      * @returns
      */
     async update() {
-        if (!(this.e.isMaster || this.e.user_id == 2833598659)) { return true }
+        // 检查 config 是否为 undefined
+        if (config === undefined) {
+            logger.error('加载配置文件发生错误，请检查配置文件或使用“e重置设置”重置配置');
+            return false;
+        }
+
+        // 检查 autoUpdate 是否存在
+        if (!('autoUpdate' in config)) {
+            logger.error('autoUpdate 配置项不存在或未定义，请使用“e自动更新初始化”刷新配置');
+            return false;
+        }
+        if (!(config.autoUpdate)) { return false }
         /** 检查是否正在更新中 */
         if (uping) {
-            await this.reply('已有命令更新中..请勿重复操作')
             return
         }
         /** 检查git安装 */
         if (!(await this.checkGit())) return
-        const isForce = this.e.msg.includes('强制')
         /** 执行更新 */
-        await this.runUpdate(isForce)
+        await this.runUpdate()
         /** 是否需要重启 */
         if (this.isUp) {
             // await this.reply("更新完毕，请重启云崽后生效")
@@ -57,15 +77,9 @@ export class esca_Update extends plugin {
      * @param {boolean} isForce 是否为强制更新
      * @returns
      */
-    async runUpdate(isForce) {
+    async runUpdate() {
         const _path = './plugins/esca-plugin/'
         let command = `git -C ${_path} pull --no-rebase`
-        if (isForce) {
-            command = `git -C ${_path} reset --hard origin && ${command}`
-            this.e.reply('正在执行强制更新操作，请稍等')
-        } else {
-            this.e.reply('正在执行更新操作，请稍等')
-        }
         /** 获取上次提交的commitId，用于获取日志时判断新增的更新日志 */
         this.oldCommitId = await this.getcommitId('esca-plugin')
         uping = true

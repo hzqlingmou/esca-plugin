@@ -163,9 +163,29 @@ export const helpList = [
         desc: '更新逸燧插件' 
       },
       {
+        icon: 41,
+        title: 'e查看设置',
+        desc: '查看本插件所有设置项'
+      },
+      {
         icon: 36,
         title: 'esese切换',
         desc: '开启/关闭涩涩'
+      },
+      {
+        icon: 38,
+        title: 'esese初始化',
+        desc: '重置esese'
+      },
+      {
+        icon: 40,
+        title: 'e自动更新切换',
+        desc: '开启/关闭自动更新'
+      },
+      {
+        icon: 39,
+        title: 'e自动更新初始化',
+        desc: '重置自动更新选项'
       },
       {
         icon: 37,
