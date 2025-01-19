@@ -2,4 +2,5 @@
 #涩涩图片功能的开启或关闭（布尔值）
 esese: false
 
+#自动更新功能的开启或关闭（布尔值）
 autoUpdate: true

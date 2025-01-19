@@ -6,7 +6,7 @@
   "type": "module",
   "dependencies": {
     "axios": "*",
-    "js-yaml": "*",
+    "yaml": "*",
     "nodemailer": "*"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js';
 import fs from 'fs/promises';
-import yaml from 'js-yaml';
+import yaml from 'yaml';
 import path from "path";
 
 let AppName = "esca-plugin";
@@ -54,7 +54,7 @@ export class esca_admin extends plugin {
     //保存设置
     async saveConfig(config) {
     try {
-        const updatedContents = yaml.dump(config);
+        const updatedContents = yaml.stringify(config);
         await fs.writeFile(eCfgPath, updatedContents);
     } catch (error) {
         logger.error('[esca-plugin] 保存配置文件失败:', error);
@@ -97,7 +97,7 @@ export class esca_admin extends plugin {
     async loadConfig() {
         try {
             const fileContents = await fs.readFile(eCfgPath, 'utf8');
-            return yaml.load(fileContents) || {}; // 确保返回的对象不会是 undefined
+            return yaml.parse(fileContents) || {}; // 确保返回的对象不会是 undefined
         } catch (error) {
             logger.error('[esca-plugin] 加载配置文件失败:', error);
             throw new Error('无法读取配置文件，请检查路径或文件权限');

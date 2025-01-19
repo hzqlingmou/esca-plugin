@@ -5,7 +5,7 @@ import { Restart } from '../../other/restart.js'
 import common from "../../../lib/common/common.js"
 import { config } from 'process'
 import fs from 'fs/promises'
-import yaml from 'js-yaml'
+import yaml from 'yaml'
 import { eCfgPath } from './admin.js'
 
 const require = createRequire(import.meta.url)
@@ -35,7 +35,7 @@ export class esca_auto_Update extends plugin {
     async loadConfig() {
         try {
             const fileContents = await fs.readFile(eCfgPath, 'utf8');
-            return yaml.load(fileContents) || {};
+            return yaml.parse(fileContents) || {};
         } catch (error) {
             logger.error('[esca-plugin] 加载配置文件失败:', error);
             throw new Error('无法读取配置文件，请检查路径或文件权限');

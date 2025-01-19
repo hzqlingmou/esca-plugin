@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import path from "path"
 import { Version } from './components/index.js';
 import { eCfgPath, eDefaultCfgPath } from './apps/admin.js';
-import yaml from 'js-yaml';
+import yaml from 'yaml';
 let AppName = "esca-plugin";
 const moduleCache = new Map()
 let loadedFilesCount = 0
@@ -116,7 +116,7 @@ async function configInit() {
 
   if (checkFile == true) {
     //开始读取配置文件
-    try { config = yaml.load(await fs.readFile(eCfgPath, 'utf-8')); } catch (error) {
+    try { config = yaml.parse(await fs.readFile(eCfgPath, 'utf-8')); } catch (error) {
       logger.error('[esca-plugin] 读取配置文件失败，请检查权限', error)
       return false;
     };
@@ -124,14 +124,14 @@ async function configInit() {
     if (config == undefined) {
       config = {};
     }
-    if (!('esese' in config) || typeof 'esese' != 'boolean') {
+    if (!('esese' in config) || typeof config.esese != 'boolean') {
       config.esese = false;
     }
-    if (!('autoUpdate' in config) || typeof 'autoUpdate' != 'boolean') {
+    if (!('autoUpdate' in config) || typeof config.autoUpdate != 'boolean') {
       config.autoUpdate = true;
     }
     try {
-      const updatedContents = yaml.dump(config);
+      const updatedContents = yaml.stringify(config);
       await fs.writeFile(eCfgPath, updatedContents);
     } catch (error) {
       logger.error('[esca-plugin] 保存配置文件失败:', error);

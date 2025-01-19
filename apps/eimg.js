@@ -1,5 +1,5 @@
 import fs from 'fs/promises';
-import yaml from 'js-yaml';
+import yaml from 'yaml';
 import plugin from '../../../lib/plugins/plugin.js';
 import { segment } from 'oicq';
 import fetch from 'node-fetch'; // Make sure to install node-fetch or another fetch polyfill for Node.js
@@ -55,7 +55,7 @@ export class esca_img extends plugin {
 	async loadConfig() {
 		try {
 			const fileContents = await fs.readFile(eCfgPath, 'utf8');
-			return yaml.load(fileContents) || {};
+			return yaml.parse(fileContents) || {};
 		} catch (error) {
 			logger.error('[esca-plugin] 加载配置文件失败:', error);
 			throw new Error('无法读取配置文件，请检查路径或文件权限');
