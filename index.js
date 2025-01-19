@@ -104,7 +104,7 @@ async function configInit() {
   try {
     await fs.access(eCfgPath);
     checkFile = true;
-  } catch (error) {
+  } catch {
     logger.info(chalk.red("[esca-plugin] 配置文件不存在，开始创建配置文件"));
     try {
       await fs.access(eDefaultCfgPath);

@@ -13,7 +13,6 @@ let url1 = 'https://api.yujn.cn/api/gzl_ACG.php?type=image&form=pc'
 let url2 = 'https://api.yujn.cn/api/long.php?type=image'
 let url3 = 'http://api.yujn.cn/api/chaijun.php'
 let url4 = 'http://api.yujn.cn/api/yht.php?type=image'
-let url5 = 'http://api.yujn.cn/api/cxk.php?'
 let url6 = 'http://api.yujn.cn/api/sese.php?'
 let url7 = 'http://api.yujn.cn/api/smj.php?'
 
