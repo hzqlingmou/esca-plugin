@@ -21,7 +21,6 @@ export class esca_auto_Update extends plugin {
         super({
             name: '更新逸燧插件',
             dsc: '插件更新',
-            event: 'message',
             priority: 10,
         })
 
