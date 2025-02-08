@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import fs from 'node:fs/promises';
 import chalk from 'chalk';
 import path from "path"
@@ -28,7 +29,7 @@ logger.info(chalk.blue('⣿⣿⣿⣿⣿⠏⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿�
 logger.info(chalk.blue('⣿⣿⣿⣿⠟⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⣿'))
 logger.info(chalk.blue('⣿⣿⣿⠋⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⣿'))
 logger.info(chalk.blue('⣿⣿⠋⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸'))
-logger.info(chalk.blue(`逸燧插件${Version.version}载入成功`))
+logger.info(chalk.blue(`逸燧插件1.0.2载入成功`))
 logger.info(chalk.blue(`共加载了 ${loadedFilesCount} 个插件文件`))
 logger.info(chalk.red(`${loadedFilesCounterr} 个失败`))
 logger.info(chalk.blue(`耗时 ${endTime - startTime} 毫秒`))

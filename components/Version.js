@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-escape */
 import fs from 'node:fs'
 import lodash from 'lodash'
 import { Data } from './index.js'
