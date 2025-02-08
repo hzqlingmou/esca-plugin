@@ -21,7 +21,7 @@ export class esca_Update extends plugin {
             priority: 10,
             rule: [
                 {
-                    reg: '^e*(插件)?(强制)?更新$',
+                    reg: '^e(强制)?更新$',
                     fnc: 'update'
                 }
             ]
