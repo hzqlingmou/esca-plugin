@@ -2,7 +2,6 @@
 import fs from 'node:fs/promises';
 import chalk from 'chalk';
 import path from "path"
-import { Version } from './components/index.js';
 import { eCfgPath, eDefaultCfgPath } from './apps/admin.js';
 import yaml from 'yaml';
 let AppName = "esca-plugin";
