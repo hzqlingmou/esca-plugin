@@ -3,7 +3,7 @@ import yaml from 'yaml';
 import plugin from '../../../lib/plugins/plugin.js';
 import { segment } from 'oicq';
 import fetch from 'node-fetch'; // Make sure to install node-fetch or another fetch polyfill for Node.js
-import { eCfgPath } from './admin.js';
+import { eCfgPath } from '../lib/info.js';
 
 function wait(ms) {
 	return new Promise(resolve => setTimeout(() => resolve(), ms));

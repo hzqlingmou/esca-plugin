@@ -1,20 +1,11 @@
+/* eslint-disable no-undef */
 import plugin from '../../../lib/plugins/plugin.js';
 import fs from 'fs/promises';
 import yaml from 'yaml';
-import path from "path";
+import { eCfgPath, eDefaultCfgPath } from '../lib/info.js';
+import { SettingsFunc } from '../lib/config.js';
 
-let AppName = "esca-plugin";
-const firstName = path.join('plugins', AppName);
-const eCfgPath = path.resolve(firstName, 'config', 'config', 'config.yaml');
-const eDefaultCfgPath = path.resolve(firstName, 'config', 'default_config', 'config.yaml');
-
-const checkAuth = async function (e) {
-    if (e.isMaster || this.e.user_id == 2833598659) {
-        return true;
-    } else {
-        await e.reply[(`只有主人才能命令窝哦~\n(*/ω＼*)`), false];
-    }
-};
+const settings = new SettingsFunc();
 
 export class esca_admin extends plugin {
     constructor() {
@@ -53,13 +44,13 @@ export class esca_admin extends plugin {
     }
     //保存设置
     async saveConfig(config) {
-    try {
-        const updatedContents = yaml.stringify(config);
-        await fs.writeFile(eCfgPath, updatedContents);
-    } catch (error) {
-        logger.error('[esca-plugin] 保存配置文件失败:', error);
-        throw new Error('无法保存配置文件，请检查路径或文件权限');
-    }
+        try {
+            const updatedContents = yaml.stringify(config);
+            await fs.writeFile(eCfgPath, updatedContents);
+        } catch (error) {
+            logger.error('[esca-plugin] 保存配置文件失败:', error);
+            throw new Error('无法保存配置文件，请检查路径或文件权限');
+        }
     }
 
     //创建默认配置文件
@@ -310,7 +301,7 @@ export class esca_admin extends plugin {
     //查看设置
     async eView(e) {
         // 检查主人权限
-        if (!await checkAuth(e)) {
+        if (!await settings.checkAuth(e)) {
             return true;
         }
 
@@ -330,14 +321,12 @@ export class esca_admin extends plugin {
         }
         // 发送配置信息
         let message = '-----逸燧插件设置-----\n';
-        message +=    `涩涩功能已${config.esese !== undefined && config.esese ? '开启' : '关闭'}\n`;
-        message +=    `自动更新已${config.autoUpdate !== undefined && config.autoUpdate ? '开启' : '关闭'}\n`;
-        message +=    '------------------------\n';
-        message +=    '--发送“e帮助”查看指令--';
+        message += `涩涩功能已${config.esese !== undefined && config.esese ? '开启' : '关闭'}\n`;
+        message += `自动更新已${config.autoUpdate !== undefined && config.autoUpdate ? '开启' : '关闭'}\n`;
+        message += '------------------------\n';
+        message += '--发送“e帮助”查看指令--';
 
         // 发送配置信息
         await e.reply(message, true);
     }
 }
-
-export { eCfgPath, eDefaultCfgPath, checkAuth };

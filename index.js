@@ -2,7 +2,7 @@
 import fs from 'node:fs/promises';
 import chalk from 'chalk';
 import path from "path"
-import { eCfgPath, eDefaultCfgPath } from './apps/admin.js';
+import { eCfgPath, eDefaultCfgPath, name, version } from './lib/info.js';
 import yaml from 'yaml';
 let AppName = "esca-plugin";
 const moduleCache = new Map()
@@ -16,6 +16,7 @@ const endTime = Date.now()
 apps = loadedApps
 loadedFilesCount = count
 loadedFilesCounterr = counterr
+logger.info(chalk.bgGreen(`${name} ${version} 开始加载`))
 logger.info(chalk.blue('⣿⣿⣿⠟⠛⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢋⣩⣉⢻'))
 logger.info(chalk.blue('⣿⣿⣿⠀⣿⣶⣕⣈⠹⠿⠿⠿⠿⠟⠛⣛⢋⣰⠣⣿⣿⠀⣿'))
 logger.info(chalk.blue('⣿⣿⣿⡀⣿⣿⣿⣧⢻⣿⣶⣷⣿⣿⣿⣿⣿⣿⠿⠶⡝⠀⣿'))
@@ -28,11 +29,13 @@ logger.info(chalk.blue('⣿⣿⣿⣿⣿⠏⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿�
 logger.info(chalk.blue('⣿⣿⣿⣿⠟⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⣿'))
 logger.info(chalk.blue('⣿⣿⣿⠋⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⣿'))
 logger.info(chalk.blue('⣿⣿⠋⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸'))
-logger.info(chalk.blue(`逸燧插件1.0.2载入成功`))
+logger.info(chalk.bgGreen(`${name} ${version} 载入完成`))
 logger.info(chalk.blue(`共加载了 ${loadedFilesCount} 个插件文件`))
-logger.info(chalk.red(`${loadedFilesCounterr} 个失败`))
+if (loadedFilesCounterr > 0) {
+  logger.info(chalk.red(`${loadedFilesCounterr} 个失败`))
+}
 logger.info(chalk.blue(`耗时 ${endTime - startTime} 毫秒`))
-logger.info(chalk.blue(`发送e帮助获取指令`))
+logger.info(chalk.blue(`发送'e帮助'获取指令`))
 logger.info(chalk.blue(`---------------------`));
 export { apps, configStatus }
 async function appsOut({ AppsName }) {
