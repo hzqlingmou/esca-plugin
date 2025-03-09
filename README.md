@@ -74,7 +74,7 @@ pnpm install --filter=esca-plugin
 - 如有侵权请提交issues，看到立即删除
 
 ## 特别鸣谢
-- [TRSS-Yunzai](https://trss.me)
+- [TRSS-Yunzai](https://github.com/TimeRainStarSky/Yunzai)
 
 ## 友情链接
 - [加入QQ交流群](https://qm.qq.com/q/Mf1D9HuL0u)
