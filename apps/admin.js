@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import plugin from '../../../lib/plugins/plugin.js';
 import fs from 'fs/promises';
-import yaml from 'yaml';
 import { eCfgPath, eDefaultCfgPath } from '../lib/info.js';
 import { SettingsFunc } from '../lib/config.js';
 
@@ -42,63 +41,11 @@ export class esca_admin extends plugin {
             ]
         });
     }
-    //保存设置
-    async saveConfig(config) {
-        try {
-            const updatedContents = yaml.stringify(config);
-            await fs.writeFile(eCfgPath, updatedContents);
-        } catch (error) {
-            logger.error('[esca-plugin] 保存配置文件失败:', error);
-            throw new Error('无法保存配置文件，请检查路径或文件权限');
-        }
-    }
-
-    //创建默认配置文件
-    async createConfigFromDefault() {
-        try {
-            await fs.copyFile(eDefaultCfgPath, eCfgPath);
-            return '配置文件创建完成';
-        } catch (error) {
-            logger.error('[esca-plugin] 创建配置文件失败:', error);
-            return '配置文件创建失败，请尝试手动创建';
-        }
-    }
-
-    //检查配置文件是否存在
-    async ensureConfigExists(e) {
-        try {
-            await fs.access(eCfgPath);
-            return true;
-        } catch {
-            let message = `配置文件不存在，开始创建配置文件`;
-            try {
-                await fs.access(eDefaultCfgPath);
-                const result = await this.createConfigFromDefault(e);
-                message += `\n${result}`;
-            } catch {
-                message = `默认配置文件不存在，请尝试重新拉取插件`;
-                return false;
-            }
-            await e.reply(message);
-            return true;
-        }
-    }
-
-    //加载设置
-    async loadConfig() {
-        try {
-            const fileContents = await fs.readFile(eCfgPath, 'utf8');
-            return yaml.parse(fileContents) || {}; // 确保返回的对象不会是 undefined
-        } catch (error) {
-            logger.error('[esca-plugin] 加载配置文件失败:', error);
-            throw new Error('无法读取配置文件，请检查路径或文件权限');
-        }
-    }
 
     /** 对应的切换函数 **/
     async toggleEsese(e) {
         try {
-            let config = await this.loadConfig();
+            let config = await settings.loadConfig();
 
             // 检查 config 是否为 undefined
             if (config === undefined) {
@@ -115,7 +62,7 @@ export class esca_admin extends plugin {
                 config.esese = !config.esese;
 
                 // 保存更新后的配置
-                await this.saveConfig(config);
+                await settings.saveConfig(config);
 
                 // 回复用户当前状态
                 await e.reply(`涩涩功能已${config.esese ? '开启' : '关闭'}`);
@@ -134,7 +81,7 @@ export class esca_admin extends plugin {
 
     async toggleAutoUpdate(e) {
         try {
-            let config = await this.loadConfig();
+            let config = await settings.loadConfig();
 
             // 检查 config 是否为 undefined
             if (config === undefined) {
@@ -151,7 +98,7 @@ export class esca_admin extends plugin {
                 config.autoUpdate = !config.autoUpdate;
 
                 // 保存更新后的配置
-                await this.saveConfig(config);
+                await settings.saveConfig(config);
 
                 // 回复用户当前状态
                 await e.reply(`自动更新已${config.autoUpdate ? '开启' : '关闭'}`);
@@ -170,12 +117,12 @@ export class esca_admin extends plugin {
     /** 切换 **/
     async eseseChange(e) {
         // 检查主人权限
-        if (!await checkAuth(e)) {
+        if (!await settings.checkAuth(e)) {
             return true;
         }
 
         // 确保配置文件存在
-        if (!await this.ensureConfigExists(e)) {
+        if (!await settings.ensureConfigExists(e)) {
             return true;
         }
 
@@ -187,12 +134,12 @@ export class esca_admin extends plugin {
 
     async autoUpdateChange(e) {
         // 检查主人权限
-        if (!await checkAuth(e)) {
+        if (!await settings.checkAuth(e)) {
             return true;
         }
 
         // 确保配置文件存在
-        if (!await this.ensureConfigExists(e)) {
+        if (!await settings.ensureConfigExists(e)) {
             return true;
         }
 
@@ -205,12 +152,12 @@ export class esca_admin extends plugin {
     //重置函数
     async eReset(e) {
         // 检查主人权限
-        if (!await checkAuth(e)) {
+        if (!await settings.checkAuth(e)) {
             return true;
         }
 
         // 确保配置文件存在
-        if (!await this.ensureConfigExists(e)) {
+        if (!await settings.ensureConfigExists(e)) {
             return true;
         }
 
@@ -227,9 +174,9 @@ export class esca_admin extends plugin {
     //初始化为false函数
     async falseInit(e, key) {
         try {
-            let config = await this.loadConfig();
+            let config = await settings.loadConfig();
             config[key] = false;
-            await this.saveConfig(config);
+            await settings.saveConfig(config);
             await e.reply(`${key} 配置项已初始化`);
             return true;
         } catch (error) {
@@ -242,9 +189,9 @@ export class esca_admin extends plugin {
     //初始化为true函数
     async trueInit(e, key) {
         try {
-            let config = await this.loadConfig();
+            let config = await settings.loadConfig();
             config[key] = true;
-            await this.saveConfig(config);
+            await settings.saveConfig(config);
             await e.reply(`${key} 配置项已初始化`);
             return true;
         } catch (error) {
@@ -257,9 +204,9 @@ export class esca_admin extends plugin {
     //初始化为空数组函数
     async emptyArrayInit(e, key) {
         try {
-            let config = await this.loadConfig();
+            let config = await settings.loadConfig();
             config[key] = [];
-            await this.saveConfig(config);
+            await settings.saveConfig(config);
             await e.reply(`${key} 列表已初始化`);
             return true;
         } catch (error) {
@@ -271,12 +218,12 @@ export class esca_admin extends plugin {
 
     /** 初始化 **/
     async eseseInit(e) {
-        if (!await checkAuth(e)) {
+        if (!await settings.checkAuth(e)) {
             return true;
         }
 
         // 确保配置文件存在
-        if (!await this.ensureConfigExists(e)) {
+        if (!await settings.ensureConfigExists(e)) {
             return true;
         }
 
@@ -285,12 +232,12 @@ export class esca_admin extends plugin {
     }
 
     async autoUpdateInit(e) {
-        if (!await checkAuth(e)) {
+        if (!await settings.checkAuth(e)) {
             return true;
         }
 
         // 确保配置文件存在
-        if (!await this.ensureConfigExists(e)) {
+        if (!await settings.ensureConfigExists(e)) {
             return true;
         }
 
@@ -306,12 +253,12 @@ export class esca_admin extends plugin {
         }
 
         // 确保配置文件存在
-        if (!await this.ensureConfigExists(e)) {
+        if (!await settings.ensureConfigExists(e)) {
             return true;
         }
 
         // 读取配置文件
-        const config = await this.loadConfig(e);
+        const config = await settings.loadConfig(e);
 
         if (typeof config.esese !== 'boolean') {
             config.esese = undefined;

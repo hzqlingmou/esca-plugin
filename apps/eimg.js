@@ -1,9 +1,9 @@
-import fs from 'fs/promises';
-import yaml from 'yaml';
 import plugin from '../../../lib/plugins/plugin.js';
+import fetch from 'node-fetch';
 import { segment } from 'oicq';
-import fetch from 'node-fetch'; // Make sure to install node-fetch or another fetch polyfill for Node.js
-import { eCfgPath } from '../lib/info.js';
+import { SettingsFunc } from '../lib/config.js';
+
+const settings = new SettingsFunc();
 
 function wait(ms) {
 	return new Promise(resolve => setTimeout(() => resolve(), ms));
@@ -13,7 +13,7 @@ let url1 = 'https://api.yujn.cn/api/gzl_ACG.php?type=image&form=pc'
 let url2 = 'https://api.yujn.cn/api/long.php?type=image'
 let url3 = 'http://api.yujn.cn/api/chaijun.php'
 let url4 = 'http://api.yujn.cn/api/yht.php?type=image'
-let url6 = 'http://api.yujn.cn/api/sese.php?'
+let url6 = 'https://api.lolicon.app/setu/v2?r18=1'
 let url7 = 'http://api.yujn.cn/api/smj.php?'
 
 export class esca_img extends plugin {
@@ -52,16 +52,6 @@ export class esca_img extends plugin {
 		});
 	}
 
-	async loadConfig() {
-		try {
-			const fileContents = await fs.readFile(eCfgPath, 'utf8');
-			return yaml.parse(fileContents) || {};
-		} catch (error) {
-			logger.error('[esca-plugin] 加载配置文件失败:', error);
-			throw new Error('无法读取配置文件，请检查路径或文件权限');
-		}
-	}
-
 	async eimg() {
 		await this.sendimg(url1);
 	}
@@ -91,7 +81,7 @@ export class esca_img extends plugin {
 
 	async Ese(e) {
 		try {
-			const config = await this.loadConfig();
+			const config = await settings.loadConfig();
 
 			// 检查 config 是否为 undefined
 			if (config === undefined) {
@@ -105,10 +95,15 @@ export class esca_img extends plugin {
 				return false;
 			} else if (config.esese == true) {
 				// 根据'esese'的值发送不同的回复
+				const infoJson = await fetch(url6);
+				const infoData = await infoJson.json();
+				const { title, author, urls } = infoData.data[0];
+				const original = urls.original;
 				const esetu = [
-					segment.image(url6)
+					`标题：${title}`,
+					`作者：${author}`,
+					segment.image(original)
 				]
-
 				const msg = await this.e.runtime.common.makeForwardMsg(e, esetu, '慢点冲哦❤~');
 				const res = await e.reply(msg);
 				const msg_id = res.message_id;
@@ -132,7 +127,6 @@ export class esca_img extends plugin {
 			}
 		} catch (error) {
 			logger.error('[esca-plugin] esese发送图片异常', error);
-			await e.reply('发生错误，请使用“e重置设置”刷新配置文件');
 			return;
 		}
 	}
