@@ -45,16 +45,7 @@ pnpm install --filter=esca-plugin
 ## 设置相关
 
 > [!warning]
-> 初次使用本插件请先使用`e重置设置`初始化
-
-- ⬇️管理指令⬇️
-- `esese切换`：打开/关闭涩涩功能
-- `e重置设置`：重置所有设置项
-
-配置文件
-| 项 | 值 | 类 |
-|----|----|----|
-| esese | true/false | boolean |
+> 请使用锅巴插件进行配置，命令配置功能重构中
 
 ## TODO（画饼）
 
@@ -66,7 +57,6 @@ pnpm install --filter=esca-plugin
 
 ## 免责声明
 
-- 小白作品，深度学习模仿[饼干插件Biscuit-Plugin](https://gitee.com/Yummy-cookie/biscuit-plugin)
 - 功能仅限内部交流与小范围使用
 - 严禁将本插件用于任何商业用途或盈利
 - 图片与其他素材均来自于网络

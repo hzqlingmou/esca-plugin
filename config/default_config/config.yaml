@@ -4,3 +4,35 @@ esese: false
 
 #自动更新功能的开启或关闭（布尔值）
 autoUpdate: true
+
+#邮件配置
+mailConfig:
+  #是否开启邮件功能（布尔值）
+  isOpen: false
+  #发件人邮箱（字符串）
+  from: ""
+  #发件人邮箱密码（字符串）
+  password: ""
+  #收件人邮箱（字符串）
+  to: ""
+  #邮件服务器地址（字符串）
+  host: ""
+  #邮件服务器端口（数字）
+  port: 465
+  #加密类型（字符串）（ssl/tls）
+  secure: "ssl"
+
+#状态监测配置
+monitorConfig:
+  #是否开启状态监测功能（布尔值）
+  isOpen:
+    cpu: false
+    memory: false
+  #监测频率（cron表达式）
+  interval: "0/1 0/5 * * * * *"
+  #告警阈值(百分比)
+  limitation:
+    cpu: 80
+    memory: 80
+  #告警间隔（毫秒）
+  alarmInterval: 3600000

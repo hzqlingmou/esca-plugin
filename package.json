@@ -7,7 +7,8 @@
   "dependencies": {
     "axios": "*",
     "yaml": "*",
-    "nodemailer": "*"
+    "nodemailer": "*",
+    "handlebars": "*"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",

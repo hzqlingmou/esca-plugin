@@ -1,18 +1,22 @@
 import plugin from '../../../lib/plugins/plugin.js';
-import fetch from 'node-fetch'; // 导入 node-fetch 用于发起 HTTP 请求
+import { segment } from 'oicq';
+import fetch from 'node-fetch';
 
-let xjjurl = 'http://api.yujn.cn/api/xjj.php?type=video'; //备用api http://api.yujn.cn/api/zzxjj.php?type=video
-let dxsurl = 'https://api.yujn.cn/api/nvda.php?type=video';
-let hsurl = 'http://api.yujn.cn/api/heisis.php?type=video';
-let bsurl = 'http://api.yujn.cn/api/baisis.php?type=video';
-let yzurl = 'http://api.yujn.cn/api/jpmt.php?type=video';
-let myurl = 'http://api.yujn.cn/api/manyao.php?type=video';
-let ddurl = 'http://api.yujn.cn/api/diaodai.php?type=video';
-let qcurl = 'http://api.yujn.cn/api/qingchun.php?type=video';
-let cosurl = 'http://api.yujn.cn/api/COS.php?type=video';
-let ngurl = 'http://api.yujn.cn/api/nvgao.php?type=video';
-let llurl = 'http://api.yujn.cn/api/luoli.php?type=video';
-let tmurl = 'http://api.yujn.cn/api/tianmei.php?type=video';
+const urlList = [
+	'http://api.yujn.cn/api/xjj.php?type=video',//小姐姐 备用api http://api.yujn.cn/api/zzxjj.php?type=video
+	'https://api.yujn.cn/api/nvda.php?type=video',//女大学生
+	'http://api.yujn.cn/api/heisis.php?type=video',//黑丝
+	'http://api.yujn.cn/api/baisis.php?type=video',//白丝
+	'http://api.yujn.cn/api/jpmt.php?type=video',//玉足
+	'http://api.yujn.cn/api/manyao.php?type=video',//慢摇
+	'http://api.yujn.cn/api/diaodai.php?type=video',//吊带
+	'http://api.yujn.cn/api/qingchun.php?type=video',//清纯
+	'http://api.yujn.cn/api/COS.php?type=video',//cos
+	'http://api.yujn.cn/api/nvgao.php?type=video',//女高
+	'http://api.yujn.cn/api/luoli.php?type=video',//萝莉
+	'http://api.yujn.cn/api/tianmei.php?type=video'//甜妹
+]
+
 
 export class esca_video extends plugin {
 	constructor() {
@@ -75,51 +79,51 @@ export class esca_video extends plugin {
 	}
 
 	async evxjj() {
-		await this.sendVideo(xjjurl);
+		await this.sendVideo(urlList[0]);
 	}
 
 	async evdxs() {
-		await this.sendVideo(dxsurl);
+		await this.sendVideo(urlList[1]);
 	}
 
 	async eheisi() {
-		await this.sendVideo(hsurl);
+		await this.sendVideo(urlList[2]);
 	}
 
 	async ebs() {
-		await this.sendVideo(bsurl);
+		await this.sendVideo(urlList[3]);
 	}
 
 	async eyz() {
-		await this.sendVideo(yzurl);
+		await this.sendVideo(urlList[4]);
 	}
 
 	async emy() {
-		await this.sendVideo(myurl);
+		await this.sendVideo(urlList[5]);
 	}
 
 	async edd() {
-		await this.sendVideo(ddurl);
+		await this.sendVideo(urlList[6]);
 	}
 
 	async eqc() {
-		await this.sendVideo(qcurl);
+		await this.sendVideo(urlList[7]);
 	}
 
 	async ecos() {
-		await this.sendVideo(cosurl);
+		await this.sendVideo(urlList[8]);
 	}
 
 	async eng() {
-		await this.sendVideo(ngurl);
+		await this.sendVideo(urlList[9]);
 	}
 
 	async ell() {
-		await this.sendVideo(llurl);
+		await this.sendVideo(urlList[10]);
 	}
 
 	async etm() {;
-		await this.sendVideo(tmurl);
+		await this.sendVideo(urlList[11]);
 	}
 	async sendVideo(url) {
 		try {

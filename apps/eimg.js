@@ -9,12 +9,14 @@ function wait(ms) {
 	return new Promise(resolve => setTimeout(() => resolve(), ms));
 };
 
-let url1 = 'https://api.yujn.cn/api/gzl_ACG.php?type=image&form=pc'
-let url2 = 'https://api.yujn.cn/api/long.php?type=image'
-let url3 = 'http://api.yujn.cn/api/chaijun.php'
-let url4 = 'http://api.yujn.cn/api/yht.php?type=image'
-let url6 = 'https://api.lolicon.app/setu/v2?r18=1'
-let url7 = 'http://api.yujn.cn/api/smj.php?'
+const urlList = [
+	'https://api.yujn.cn/api/gzl_ACG.php?type=image&form=pc',//url1
+	'https://api.yujn.cn/api/long.php?type=image',//url2
+	'http://api.yujn.cn/api/chaijun.php',//url3
+	'http://api.yujn.cn/api/yht.php?type=image',//url4
+	'https://api.lolicon.app/setu/v2?r18=1',//url6
+	'http://api.yujn.cn/api/smj.php?',//url7
+]
 
 export class esca_img extends plugin {
 	constructor() {
@@ -53,21 +55,21 @@ export class esca_img extends plugin {
 	}
 
 	async eimg() {
-		await this.sendimg(url1);
+		await this.sendimg(urlList[0]);
 	}
 
 	async elt() {
-		await this.sendimg(url2);
+		await this.sendimg(urlList[1]);
 	}
 
 	async ecj() {
-		await this.sendimg(url3);
+		await this.sendimg(urlList[2]);
 	}
 
 	async eyh(e) {
 		try {
 			const yht = [
-				segment.image(url4)
+				segment.image(urlList[3])
 			];
 			const msg = await this.e.runtime.common.makeForwardMsg(e, yht, '');
 			await this.e.reply(msg);
@@ -95,7 +97,7 @@ export class esca_img extends plugin {
 				return false;
 			} else if (config.esese == true) {
 				// 根据'esese'的值发送不同的回复
-				const infoJson = await fetch(url6);
+				const infoJson = await fetch(urlList[4]);
 				const infoData = await infoJson.json();
 				const { title, author, urls } = infoData.data[0];
 				const original = urls.original;
@@ -132,7 +134,7 @@ export class esca_img extends plugin {
 	}
 
 	async esm() {
-		await this.sendimg(url7);
+		await this.sendimg(urlList[5]);
 	}
 
 	async sendimg(url) {
