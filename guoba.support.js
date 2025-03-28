@@ -53,6 +53,30 @@ export function supportGuoba() {
           component: 'Switch'
         },
         {
+          label: '监控配置',
+          component: 'SOFT_GROUP_BEGIN'
+        },
+        {
+          field: 'monitorConfig.isOpen.cpu',
+          label: '开启cpu监控',
+          required: true,
+          component: 'Switch'
+        },
+        {
+          field: 'monitorConfig.isOpen.memory',
+          label: '开启内存监控',
+          required: true,
+          component: 'Switch'
+        },
+        {
+          field: 'monitorConfig.interval',
+          label: '监控间隔',
+          component: 'EasyCron',
+          componentProps: {
+            placeholder: "请输入Cron表达式"
+          }
+        },
+        {
           label: '邮件配置',
           // 第二个分组标记开始
           component: 'SOFT_GROUP_BEGIN'

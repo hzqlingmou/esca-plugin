@@ -14,18 +14,20 @@ export class esca_monitor extends plugin {
             dsc: '逸燧监控',
             event: 'message',
             priority: 5000,
-            rule: []
         });
 
         this.task = {
             name: 'esca_monitor',
-            cron: '0 0 0 * * *',
-            fnc: 'start',
+            fnc: () => this.start(),
+            cron: config.monitorConfig.interval,
         }
     }
 
-    async start(e) {
-        
+    async start() {
+        if (config.monitorConfig.isOpen.cpu) {
+            
+        }
+        return true;
     }
 
 }
