@@ -1,6 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js';
 import { segment } from 'oicq';
-import fetch from 'node-fetch'; // Make sure to install node-fetch or another fetch polyfill for Node.js
+import fetch from 'node-fetch';
 
 export class esca_other extends plugin {
     constructor() {
@@ -23,8 +23,8 @@ export class esca_other extends plugin {
 					fnc: 'ewa'
 				},
 				{
-					reg: "^e火车票(.*)到(.*)$",  // 匹配“火车票[城市]到[城市]”格式的消息
-					fnc: 'queryTickets' //作者：通义千问  嘎嘎厉害，快去使用  首发群695596638 经作者同意转载
+					reg: "^e火车票(.*)到(.*)$",
+					fnc: 'queryTickets'
 				}
             ]
         });
@@ -157,10 +157,9 @@ export class esca_other extends plugin {
             const ticketList = data.split('\n');
             const firstLine = ticketList[0];
             const remainingLines = ticketList.slice(2);
-            const chunkSize = 7;  // 默认每8行作为一个转发消息
-            let start = 0;  // 当前处理的位置
+            const chunkSize = 7;
+            let start = 0;
 
-            // 处理第一行
             MsgList.push({
                 message: [
                     firstLine
@@ -171,7 +170,6 @@ export class esca_other extends plugin {
             while (start < remainingLines.length) {
                 let end = start + chunkSize;
 
-                // 如果剩余的行数不够chunkSize，或者这一组包含“无座”，则增加一行
                 if (end > remainingLines.length || remainingLines.slice(start, end).join('\n').includes('无座')) {
                     end++;
                 }
@@ -185,17 +183,17 @@ export class esca_other extends plugin {
                     ...bot,
                 });
 
-                start = end;  // 更新开始位置
+                start = end;
             }
 
             const msg = await e.reply([await e.group.makeForwardMsg(MsgList)]);
             if (!msg) {
-                console.log("消息发送失败");
+                logger.error("消息发送失败");
                 return false;
             }
             return true;
         } catch (error) {
-            console.error(`获取火车票信息时出错：${error}`);
+            logger.error(`获取火车票信息时出错：${error}`);
             await e.reply("获取火车票信息失败，请稍后重试。", true);
             return false;
         }
