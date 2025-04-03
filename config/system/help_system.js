@@ -1,3 +1,5 @@
+import { list } from "pm2"
+
 /*
 * 此配置文件为系统使用，请勿修改，否则可能无法正常使用
 *
@@ -6,7 +8,7 @@
 * */
 export const helpCfg = {
   title: '逸燧插件帮助',
-  subTitle: 'Yunzai-Bot && Esca-Plugin',
+  subTitle: 'TRSS-Yunzai && Esca-Plugin',
   columnCount: 3,
   colWidth: 265,
   theme: 'all',
@@ -35,6 +37,21 @@ export const helpList = [
         icon: 53,
         title: 'e火车票[城市]到[城市]',
         desc: '查询火车票'
+      }
+    ]
+  },
+  {
+    group: '邮件功能',
+    list: [
+      {
+        icon: 27,
+        title: 'e发送邮件+<收件人地址>+<邮件主题>+<邮件正文>',
+        desc: '发送自定义邮件'
+      },
+      {
+        icon: 28,
+        title: 'e邮件测试',
+        desc: '测试邮件发送功能'
       }
     ]
   },
@@ -154,7 +171,7 @@ export const helpList = [
     ]
   },
   { 
-    group: '管理命令，仅管理员可用', 
+    group: '管理命令，仅管理员可用（请使用“锅巴插件”配置插件选项）', 
     auth: 'master', 
     list: [
       { 
@@ -162,36 +179,6 @@ export const helpList = [
         title: 'e更新', 
         desc: '更新逸燧插件' 
       },
-      {
-        icon: 41,
-        title: 'e查看设置',
-        desc: '查看本插件所有设置项'
-      },
-      {
-        icon: 36,
-        title: 'esese切换',
-        desc: '开启/关闭涩涩'
-      },
-      {
-        icon: 38,
-        title: 'esese初始化',
-        desc: '重置esese'
-      },
-      {
-        icon: 40,
-        title: 'e自动更新切换',
-        desc: '开启/关闭自动更新'
-      },
-      {
-        icon: 39,
-        title: 'e自动更新初始化',
-        desc: '重置自动更新选项'
-      },
-      {
-        icon: 37,
-        title: 'e重置设置',
-        desc: '重置设置'
-      }
     ]
   }
 ]
