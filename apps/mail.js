@@ -31,10 +31,6 @@ export class esca_mail extends plugin {
                 }
             ]
         });
-
-        this.receiver = 0;
-        this.subject = 0;
-        this.content = 0
     }
 
     async checkMail(e) {
