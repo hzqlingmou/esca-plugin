@@ -87,13 +87,13 @@ export class esca_img extends plugin {
 
 			// 检查 config 是否为 undefined
 			if (config === undefined) {
-				await e.reply('加载配置文件发生错误，请检查配置文件或使用“e重置设置”重置配置');
+				await e.reply('加载配置文件发生错误，请删除配置文件后重启');
 				return false;
 			}
 
 			// 检查 esese 是否存在
 			if (!('esese' in config)) {
-				await e.reply('esese 配置项不存在或未定义，请使用“esese初始化”刷新配置');
+				await e.reply('esese 配置项不存在或未定义，请检查配置文件');
 				return false;
 			} else if (config.esese == true) {
 				// 根据'esese'的值发送不同的回复
