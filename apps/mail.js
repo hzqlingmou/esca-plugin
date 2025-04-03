@@ -26,7 +26,8 @@ export class esca_mail extends plugin {
     }
 
     async checkMail(e) {
-        if (!(settings.checkAuth(e))) return true; 
+        const isMgr = await settings.checkAuth(e);
+        if (!(isMgr)) return
         const MailSendStatus = await sender.SendMail(e, 'test', 'test', '[esca-plugin] 邮件测试', 'test.html');
         if (MailSendStatus) {
             e.reply('邮件发送成功');
@@ -38,7 +39,8 @@ export class esca_mail extends plugin {
     }
 
     async sendCustomMail(e) {
-        if (!(settings.checkAuth(e))) return true; 
+        const isMgr = await settings.checkAuth(e);
+        if (!(isMgr)) return
         const [fullMatch, prefix, receiver, subject, content] = e.msg.match(/^(#|e)发送邮件\s*([^\s:@]+@[^\s:@]+\.[^\s:@]+):([^:]+):([\s\S]+)/);
         const MailSendStatus = await sender.SendMail(e, 'custom', content, subject, 'custom.html', receiver);
         if (MailSendStatus) {
