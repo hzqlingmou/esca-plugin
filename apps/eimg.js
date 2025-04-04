@@ -120,10 +120,10 @@ export class esca_img extends plugin {
 				return;
 			} else {
 				if (typeof config.esese === 'boolean') {
-					await e.reply('还没有开启涩涩功能哦，请使用“esese切换”开启功能');
+					await e.reply('还没有开启涩涩功能哦（可使用锅巴配置');
 					return;
 				} else {
-					await e.reply('esese 配置变量类错误，请使用“esese初始化”刷新');
+					await e.reply('esese 配置变量类错误，请删除配置文件');
 					return;
 				}
 			}
