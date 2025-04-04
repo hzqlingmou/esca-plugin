@@ -61,6 +61,8 @@ export class esca_mail extends plugin {
     }
 
     async sendCustomMail(e) {
+        const isMgr = await settings.checkAuth(e);
+        if (!(isMgr)) return
         try {
             receiver = '';
             subject = '';
