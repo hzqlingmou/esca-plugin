@@ -5,13 +5,13 @@ esese: false
 #自动更新功能的开启或关闭（布尔值）
 autoUpdate: true
 
-#邮件配置
+#邮件服务配置
 mailConfig:
   #是否开启邮件功能（布尔值）
   isOpen: false
   #发件人邮箱（字符串）
   from: ""
-  #发件人邮箱密码（字符串）
+  #发件人邮箱密钥（字符串）
   password: ""
   #收件人邮箱（字符串）
   to: ""
@@ -21,3 +21,11 @@ mailConfig:
   port: 465
   #加密类型（字符串）（ssl/tls）
   secure: "ssl"
+
+#群发邮件配置
+massMail:
+  #是否开启群发功能（布尔值）
+  isOpen: false
+  #群发邮件列表（数组【字符串】）
+  list:
+    - "114514@qq.com"

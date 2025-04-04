@@ -1,7 +1,0 @@
-true为开启，false为关闭
-
-涩涩功能
-esese: true/false
-
-自动更新
-autoUpdate: true/false

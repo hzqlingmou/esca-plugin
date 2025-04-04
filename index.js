@@ -3,7 +3,6 @@ import fs from 'node:fs/promises';
 import chalk from 'chalk';
 import path from "path"
 import { name, version } from './lib/info.js';
-import cfg from "./models/cfg.js";
 let AppName = "esca-plugin";
 const moduleCache = new Map()
 let loadedFilesCount = 0
