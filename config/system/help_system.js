@@ -1,5 +1,3 @@
-import { list } from "pm2"
-
 /*
 * 此配置文件为系统使用，请勿修改，否则可能无法正常使用
 *
@@ -26,17 +24,17 @@ export const helpCfg = {
 
 export const helpList = [
   {
-    group: '查询功能',
-    list: [
+    "group": '查询功能',
+    "list": [
       {
-        icon: 79,
-        title: 'e查询备案+<域名>',
-        desc: '查询指定域名的备案'
+        "icon": 79,
+        "title": 'e查询备案+<域名>',
+        "desc": '查询指定域名的备案'
       },
       {
-        icon: 53,
-        title: 'e火车票[城市]到[城市]',
-        desc: '查询火车票'
+        "icon": 53,
+        "title": 'e火车票[城市]到[城市]',
+        "desc": '查询火车票'
       }
     ]
   },
