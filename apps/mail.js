@@ -8,6 +8,7 @@ const sender = new MailSender();
 let receiver = '';
 let subject = '';
 let content = '';
+let isMass = false;
 
 export class esca_mail extends plugin {
     constructor() {
@@ -26,9 +27,9 @@ export class esca_mail extends plugin {
                     fnc: 'sendCustomMailOneLine'
                 },
                 {
-                    reg: '^(#|e)发送邮件$',
+                    reg: '^(#|e)(群发|发送)邮件$',
                     fnc: 'sendCustomMail'
-                }
+                },
             ]
         });
     }
@@ -36,7 +37,7 @@ export class esca_mail extends plugin {
     async checkMail(e) {
         const isMgr = await settings.checkAuth(e);
         if (!(isMgr)) return
-        const MailSendStatus = await sender.SendMail(e, 'test', 'test', '[esca-plugin] 邮件测试', 'test.html');
+        const MailSendStatus = await sender.SendMail('test', 'test', '[esca-plugin] 邮件测试', 'test.html');
         if (MailSendStatus) {
             e.reply('邮件发送成功');
             return true;
@@ -50,7 +51,7 @@ export class esca_mail extends plugin {
         const isMgr = await settings.checkAuth(e);
         if (!(isMgr)) return
         const [fullMatch, prefix, onelineReceiver, onelineSubject, onelineContent] = e.msg.match(/^(#|e)发送邮件\s*([^\s:@]+@[^\s:@]+\.[^\s:@]+):([^:]+):([\s\S]+)/);
-        const MailSendStatus = await sender.SendMail(e, 'custom', onelineContent, onelineSubject, 'custom.html', onelineReceiver);
+        const MailSendStatus = await sender.SendMail('custom', onelineContent, onelineSubject, 'custom.html', onelineReceiver);
         if (MailSendStatus) {
             e.reply('邮件发送成功');
             return true;
@@ -64,29 +65,39 @@ export class esca_mail extends plugin {
         const isMgr = await settings.checkAuth(e);
         if (!(isMgr)) return
         try {
+            isMass = false;
             receiver = '';
             subject = '';
             content = '';
+            if (this.e.msg.includes('群发')) {
+                isMass = true;
+                this.getReceiver(e);
+                return
+            }
             this.setContext('getReceiver')
             return e.reply('请发送收件人邮箱地址（发送cancel取消操作）');
         } catch (error) {
             logger.error(error);
+            e.reply('邮件发送失败，请查看日志');
             return true;
         }
     }
 
     async getReceiver(e) {
         try {
-            this.finish('getReceiver')
-            if (this.e.msg == 'cancel') {
-                e.reply('操作已取消');
-                return true
+            if (!isMass) {
+                this.finish('getReceiver')
+                if (this.e.msg == 'cancel') {
+                    e.reply('操作已取消');
+                    return true
+                }
+                receiver = this.e.msg;
             }
-            receiver = this.e.msg;
             this.setContext('getSubject')
             return e.reply('请发送邮件主题（发送cancel取消操作）');
         } catch (error) {
             logger.error(error);
+            e.reply('邮件发送失败，请查看日志');
             return true;
         }
     }
@@ -103,6 +114,7 @@ export class esca_mail extends plugin {
             return e.reply('请发送邮件内容（发送cancel取消操作）');
         } catch (error) {
             logger.error(error);
+            e.reply('邮件发送失败，请查看日志');
             return true;
         }
     }
@@ -116,15 +128,27 @@ export class esca_mail extends plugin {
             }
             content = this.e.msg;
             e.reply('正在发送邮件，请稍后...')
-            const MailSendStatus = await sender.SendMail(e, 'custom', content, subject, 'custom.html', receiver);
-            if (MailSendStatus) {
-                e.reply('邮件发送成功');
-                return true;
+            if (isMass) {
+                const MailSendStatus = await sender.SendMassMail(e, content, subject)
+                if (MailSendStatus) {
+                    e.reply('邮件发送成功');
+                    return true;
+                } else {
+                    e.reply('邮件发送失败，请查看日志');
+                    return true;
+                }
             } else {
-                e.reply('邮件发送失败，请查看日志');
-                return true;
+                const MailSendStatus = await sender.SendMail('custom', content, subject, 'custom.html', receiver);
+                if (MailSendStatus) {
+                    e.reply('邮件发送成功');
+                    return true;
+                } else {
+                    e.reply('邮件发送失败，请查看日志');
+                    return true;
+                }
             }
         } catch (error) {
+            e.reply('邮件发送失败，请查看日志');
             logger.error(error);
             return true;
         }

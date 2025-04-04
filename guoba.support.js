@@ -64,6 +64,21 @@ export function supportGuoba() {
           required: true
         },
         {
+          field: 'massMail.isOpen',
+          label: '启用群发邮件功能',
+          component: 'Switch',
+          required: true
+        },
+        {
+          field: "massMail.list",
+          label: '群发邮件收件人列表',
+          component: "GTags",
+          componentProps: {
+            allowAdd: true,
+            allowDel: true,
+          }
+        },
+        {
           field: 'mailConfig.host',
           label: '邮件服务器主机名',
           bottomHelpMessage: '形如：smtp.qq.com',
