@@ -41,7 +41,7 @@ export class esca_mail extends plugin {
             e.reply('邮件发送成功');
             return true;
         } else {
-            e.reply('邮件发送失败，请查看日志');
+            e.reply('邮件发送失败，可能是未开启邮件功能或配置错误，请查看日志');
             return true;
         }
     }
@@ -55,18 +55,20 @@ export class esca_mail extends plugin {
             e.reply('邮件发送成功');
             return true;
         } else {
-            e.reply('邮件发送失败，请查看日志');
+            e.reply('邮件发送失败，可能是未开启邮件功能或配置错误，请查看日志');
             return true;
         }
     }
 
     async sendCustomMail(e) {
+        const isMgr = await settings.checkAuth(e);
+        if (!(isMgr)) return
         try {
             receiver = '';
             subject = '';
             content = '';
             this.setContext('getReceiver')
-            return e.reply('请输入收件人邮箱地址');
+            return e.reply('请发送收件人邮箱地址（发送cancel取消操作）');
         } catch (error) {
             logger.error(error);
             return true;
@@ -76,9 +78,13 @@ export class esca_mail extends plugin {
     async getReceiver(e) {
         try {
             this.finish('getReceiver')
+            if (this.e.msg == 'cancel') {
+                e.reply('操作已取消');
+                return true
+            }
             receiver = this.e.msg;
             this.setContext('getSubject')
-            return e.reply('请输入邮件主题');
+            return e.reply('请发送邮件主题（发送cancel取消操作）');
         } catch (error) {
             logger.error(error);
             return true;
@@ -88,9 +94,13 @@ export class esca_mail extends plugin {
     async getSubject(e) {
         try {
             this.finish('getSubject')
+            if (this.e.msg == 'cancel') {
+                e.reply('操作已取消');
+                return true
+            }
             subject = this.e.msg;
             this.setContext('getContent')
-            return e.reply('请输入邮件内容');
+            return e.reply('请发送邮件内容（发送cancel取消操作）');
         } catch (error) {
             logger.error(error);
             return true;
@@ -100,6 +110,10 @@ export class esca_mail extends plugin {
     async getContent(e) {
         try {
             this.finish('getContent')
+            if (this.e.msg == 'cancel') {
+                e.reply('操作已取消');
+                return true
+            }
             content = this.e.msg;
             e.reply('正在发送邮件，请稍后...')
             const MailSendStatus = await sender.SendMail(e, 'custom', content, subject, 'custom.html', receiver);

@@ -129,6 +129,7 @@ export class esca_img extends plugin {
 			}
 		} catch (error) {
 			logger.error('[esca-plugin] esese发送图片异常', error);
+			e.reply('出现错误❌，请查看日志')
 			return;
 		}
 	}
