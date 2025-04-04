@@ -2,13 +2,18 @@
 import fs from 'node:fs/promises';
 import chalk from 'chalk';
 import path from "path"
-import { name, version } from './lib/info.js';
+import { name, version, eCfgPath, eDefaultCfgPath } from './lib/info.js';
 let AppName = "esca-plugin";
 const moduleCache = new Map()
 let loadedFilesCount = 0
 let loadedFilesCounterr = 0
 let apps
 const startTime = Date.now()
+try {
+  await fs.access(eCfgPath)
+} catch (error) {
+  await fs.copyFile(eDefaultCfgPath, eCfgPath)
+}
 const { apps: loadedApps, loadedFilesCount: count, loadedFilesCounterr: counterr } = await appsOut({ AppsName: "apps" })
 const endTime = Date.now()
 apps = loadedApps
