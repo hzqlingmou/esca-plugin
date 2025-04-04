@@ -64,6 +64,9 @@ pnpm install --filter=esca-plugin
 - 仅供交流学习娱乐
 - 如有侵权请提交issues，看到立即删除
 
+## 贡献者
+[![contributors](https://contrib.rocks/image?repo=hzqlingmou/esca-plugin)](https://github.com/hzqlingmou/esca-plugin/graphs/contributors)
+
 ## 特别鸣谢
 - [TRSS-Yunzai](https://github.com/TimeRainStarSky/Yunzai)
 
