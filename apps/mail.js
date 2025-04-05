@@ -27,7 +27,7 @@ export class esca_mail extends plugin {
                     fnc: 'sendCustomMailOneLine'
                 },
                 {
-                    reg: '^(#|e)(群发|发送)邮件$',
+                    reg: '^(#|e)(默认群发|群发|发送)邮件$',
                     fnc: 'sendCustomMail'
                 },
             ]
@@ -69,13 +69,17 @@ export class esca_mail extends plugin {
             receiver = '';
             subject = '';
             content = '';
-            if (this.e.msg.includes('群发')) {
+            if (this.e.msg.includes('默认群发')) {
                 isMass = true;
                 this.getReceiver(e);
                 return
             }
             this.setContext('getReceiver')
-            return e.reply('请发送收件人邮箱地址（发送cancel取消操作）');
+            if (this.e.msg.includes('群发')) {
+                return e.reply('请发送收件人邮箱地址（多个地址请用英文逗号隔开，发送cancel取消操作')
+            } else {
+                return e.reply('请发送收件人邮箱地址（发送cancel取消操作）');
+            }
         } catch (error) {
             logger.error(error);
             e.reply('邮件发送失败，请查看日志');
