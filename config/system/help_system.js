@@ -43,7 +43,7 @@ export const helpList = [
     list: [
       {
         icon: 27,
-        title: 'e发送邮件+<收件人地址>+<邮件主题>+<邮件正文>',
+        title: 'e发送邮件',
         desc: '发送自定义邮件'
       },
       {
